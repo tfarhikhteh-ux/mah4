@@ -1,0 +1,1810 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پیام‌رسان ماه</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0c0c2e 0%, #1a1a4a 50%, #2d2d6e 100%);
+            min-height: 100vh;
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 5s infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            position: relative;
+        }
+        
+        .moon-container {
+            position: relative;
+            margin: 0 auto 15px;
+            width: 120px;
+            height: 120px;
+        }
+        
+        .moon {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            border-radius: 50%;
+            box-shadow: 
+                0 0 80px rgba(255, 255, 255, 0.8),
+                0 0 150px rgba(255, 255, 255, 0.4),
+                inset 0 0 50px rgba(0, 0, 0, 0.1);
+            animation: glow 4s ease-in-out infinite;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .moon:hover {
+            transform: scale(1.1);
+        }
+        
+        .moon::before {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: 25%;
+            width: 30px;
+            height: 30px;
+            background: rgba(200, 200, 200, 0.3);
+            border-radius: 50%;
+            box-shadow: 
+                25px 25px 0 8px rgba(200, 200, 200, 0.2),
+                -15px -8px 0 4px rgba(200, 200, 200, 0.15);
+        }
+        
+        @keyframes glow {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .moon-title {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+            margin-top: 5px;
+            letter-spacing: 3px;
+        }
+        
+        .content {
+            display: grid;
+            grid-template-columns: 320px 1fr 320px;
+            gap: 20px;
+            margin-top: 25px;
+        }
+        
+        .sidebar {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 20px;
+            height: fit-content;
+        }
+        
+        .message-form {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 20px;
+            height: fit-content;
+        }
+        
+        .messages-container {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 20px;
+            max-height: 700px;
+            overflow-y: auto;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #a0a0ff;
+            font-weight: 500;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 12px;
+            color: white;
+            font-size: 14px;
+            resize: vertical;
+            transition: all 0.3s;
+            font-family: 'Courier New', monospace;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #a0a0ff;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 15px rgba(160, 160, 255, 0.3);
+        }
+        
+        textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .btn-send {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .btn-send:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .message-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 18px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .message-card:hover {
+            transform: translateX(5px);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .message-card.code-message {
+            border-left: 4px solid #27ae60;
+            background: rgba(39, 174, 96, 0.1);
+        }
+        
+        .device-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .message-text {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+            white-space: pre-wrap;
+            max-height: 120px;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .message-text.code-preview {
+            font-family: 'Courier New', monospace;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .message-time {
+            font-size: 11px;
+            color: #a0a0ff;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .code-indicator {
+            background: #27ae60;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        
+        .language-badge {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            margin-right: 5px;
+        }
+        
+        .empty-state {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            padding: 40px 0;
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            color: rgba(255, 255, 255, 0.6);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .designer-box {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 12px 20px;
+            margin-top: 10px;
+            display: inline-block;
+            font-weight: 600;
+        }
+        
+        .active-devices {
+            margin-top: 20px;
+        }
+        
+        .device-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .refresh-info {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 12px;
+            margin-top: 15px;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        /* دکمه‌های عملیاتی */
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .open-code-btn, .share-code-btn, .save-code-btn, .reply-btn, .react-btn, .delete-all-btn {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .share-code-btn {
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+        }
+        
+        .save-code-btn {
+            background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
+        }
+        
+        .reply-btn {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        }
+        
+        .react-btn {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+        }
+        
+        .delete-all-btn {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            padding: 10px 20px;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        
+        .open-code-btn:hover, .share-code-btn:hover, 
+        .save-code-btn:hover, .reply-btn:hover, .react-btn:hover, .delete-all-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* استایل صفحه نمایش کد */
+        .code-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            overflow: auto;
+            padding: 20px;
+        }
+
+        .code-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #1a1a1a;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: #2d2d2d;
+            border-bottom: 1px solid #444;
+        }
+
+        .code-title {
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .code-close {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .code-close:hover {
+            background: #ff3742;
+        }
+
+        .code-content {
+            background: #000;
+            padding: 20px;
+            max-height: 70vh;
+            overflow: auto;
+        }
+
+        .code-actions {
+            padding: 15px 20px;
+            background: #2d2d2d;
+            border-top: 1px solid #444;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .copy-btn, .share-modal-btn {
+            background: #2ed573;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .share-modal-btn {
+            background: #9b59b6;
+        }
+
+        .copy-btn:hover {
+            background: #27ae60;
+        }
+        
+        .share-modal-btn:hover {
+            background: #8e44ad;
+        }
+
+        .copy-success {
+            color: #2ed573;
+            margin-left: 10px;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .stat-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #a0a0ff;
+        }
+        
+        .stat-label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 5px;
+        }
+        
+        .saved-code-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+            font-size: 13px;
+        }
+        
+        /* ویژگی‌های جدید */
+        .search-box {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .search-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 8px;
+            font-size: 14px;
+        }
+        
+        .search-input:focus {
+            outline: none;
+        }
+        
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .reaction-buttons {
+            display: flex;
+            gap: 5px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .reaction-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 4px 8px;
+            font-size: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .reaction-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+        
+        .reply-section {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .reply-message {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 8px;
+            margin-bottom: 8px;
+            font-size: 12px;
+            border-right: 3px solid #3498db;
+        }
+        
+        .file-upload {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .file-upload:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .file-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .file-name {
+            font-size: 12px;
+            color: #a0a0ff;
+        }
+        
+        .file-size {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+        
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+        
+        .online-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #27ae60;
+            border-radius: 50%;
+            margin-left: 5px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .typing-indicator {
+            color: #a0a0ff;
+            font-size: 12px;
+            font-style: italic;
+            padding: 5px 0;
+        }
+        
+        @media (max-width: 1200px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+            
+            .moon-title {
+                font-size: 2.5rem;
+            }
+            
+            .code-modal {
+                padding: 10px;
+            }
+        }
+        
+        /* انیمیشن‌های جدید */
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .message-card {
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #a0a0ff;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #27ae60;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 1001;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        /* استایل‌های Prism */
+        .code-block {
+            background: #1a1a1a;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        
+        .code-block code {
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+        }
+        
+        /* استایل‌های ضبط صدا */
+        .voice-recorder {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .btn-record {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-record:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-record.recording {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            animation: pulse 1.5s infinite;
+        }
+        
+        .recording-status {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #a0a0ff;
+            display: none;
+        }
+        
+        .audio-message {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .audio-player {
+            width: 100%;
+            margin-top: 5px;
+        }
+        
+        .audio-duration {
+            font-size: 11px;
+            color: #a0a0ff;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- دکمه تغییر تم -->
+    <button class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-moon"></i>
+    </button>
+    
+    <!-- زمینه ستاره‌دار -->
+    <div class="stars" id="stars"></div>
+    
+    <div class="container">
+        <!-- هدر با ماه کامل -->
+        <div class="header">
+            <div class="moon-container">
+                <div class="moon"></div>
+            </div>
+            <div class="moon-title">ماه</div>
+        </div>
+        
+        <!-- محتوای اصلی -->
+        <div class="content">
+            <!-- سایدبار سمت راست - دستگاه‌های فعال -->
+            <div class="sidebar">
+                <h3 style="margin-bottom: 15px; color: #a0a0ff;">
+                    <i class="fas fa-laptop" style="margin-left: 8px;"></i>
+                    دستگاه‌های فعال
+                </h3>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value" id="totalMessages">0</div>
+                        <div class="stat-label">پیام ارسالی</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="totalCodes">0</div>
+                        <div class="stat-label">کد شناسایی شده</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="activeDevicesCount">0</div>
+                        <div class="stat-label">دستگاه فعال</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="onlineUsers">0</div>
+                        <div class="stat-label">کاربر فعال</div>
+                    </div>
+                </div>
+                
+                <div class="active-devices">
+                    <h4 style="margin: 20px 0 10px; color: #a0a0ff;">
+                        <i class="fas fa-users" style="margin-left: 8px;"></i>
+                        کاربران فعال
+                    </h4>
+                    <div id="devicesList">
+                        <div class="loading">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            در حال بارگذاری...
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="typing-indicator" id="typingIndicator" style="display: none;">
+                    <i class="fas fa-pencil-alt"></i> در حال تایپ...
+                </div>
+                
+                <div class="refresh-info">
+                    <i class="fas fa-sync-alt" style="margin-left: 5px;"></i>
+                    بروزرسانی خودکار هر ۳ ثانیه
+                </div>
+
+                <!-- دکمه حذف همه -->
+                <button class="delete-all-btn" onclick="deleteAllMessages()">
+                    <i class="fas fa-trash" style="margin-left: 8px;"></i>
+                    حذف همه پیام‌ها
+                </button>
+            </div>
+            
+            <!-- بخش مرکزی - پیام‌ها -->
+            <div class="messages-container" id="messagesContainer">
+                <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 15px;">
+                    <h3 style="color: #a0a0ff;">
+                        <i class="fas fa-comments" style="margin-left: 8px;"></i>
+                        پیام‌ها
+                    </h3>
+                    <div class="search-box">
+                        <input type="text" class="search-input" id="searchInput" placeholder="جستجو در پیام‌ها...">
+                    </div>
+                </div>
+                
+                <div id="messagesList">
+                    <div class="empty-state">
+                        <i class="fas fa-comment" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                        <p>هنوز پیامی ارسال نشده است</p>
+                        <p style="font-size: 14px; margin-top: 10px;">اولین پیام را ارسال کنید!</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- سایدبار سمت چپ - فرم ارسال -->
+            <div class="message-form">
+                <h3 style="margin-bottom: 15px; color: #a0a0ff;">
+                    <i class="fas fa-paper-plane" style="margin-left: 8px;"></i>
+                    ارسال پیام
+                </h3>
+                
+                <!-- ضبط صدا -->
+                <div class="voice-recorder">
+                    <button id="recordButton" class="btn-record">
+                        <i class="fas fa-microphone"></i>
+                        شروع ضبط صدا
+                    </button>
+                    <div class="recording-status" id="recordingStatus">
+                        <i class="fas fa-circle" style="color: #e74c3c; margin-left: 5px;"></i>
+                        در حال ضبط... 
+                        <span id="recordingTime">0:00</span>
+                    </div>
+                </div>
+                
+                <div class="file-upload" onclick="document.getElementById('fileInput').click()">
+                    <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                    <div>برای آپلود فایل کلیک کنید</div>
+                    <small>حداکثر سایز: 5MB</small>
+                    <input type="file" id="fileInput" style="display: none;" onchange="handleFileUpload(this.files)">
+                </div>
+                
+                <div id="uploadedFiles"></div>
+                
+                <form id="messageForm">
+                    <div class="form-group">
+                        <label for="message">
+                            <i class="fas fa-edit" style="margin-left: 5px;"></i>
+                            پیام شما:
+                        </label>
+                        <textarea 
+                            id="message"
+                            name="message" 
+                            placeholder="پیام خود را اینجا بنویسید..."
+                            oninput="handleTyping()"
+                        ></textarea>
+                    </div>
+                    <button type="submit" class="btn-send">
+                        <i class="fas fa-paper-plane" style="margin-left: 8px;"></i>
+                        ارسال پیام
+                    </button>
+                </form>
+                
+                <div style="margin-top: 15px; font-size: 12px; color: #a0a0ff;">
+                    <i class="fas fa-user" style="margin-left: 5px;"></i>
+                    شما: <span id="myDeviceId">کاربر ۱</span>
+                    <span class="online-indicator"></span>
+                </div>
+                
+                <div class="saved-codes">
+                    <h4 style="margin: 20px 0 10px; color: #a0a0ff;">
+                        <i class="fas fa-bookmark" style="margin-left: 8px;"></i>
+                        متن‌های ذخیره شده
+                    </h4>
+                    <div id="savedCodesList">
+                        <div style="text-align: center; color: rgba(255,255,255,0.5); padding: 10px; font-size: 12px;">
+                            متنی ذخیره نشده است
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- فوتر -->
+        <div class="footer">
+            <div style="font-size: 1.1rem; margin-bottom: 10px; color: #a0a0ff;">پیام‌رسان ماه</div>
+            <div class="designer-box">
+                <i class="fas fa-palette" style="margin-left: 8px;"></i>
+                طراح: طاها فرهیخته
+            </div>
+        </div>
+    </div>
+
+    <!-- مودال نمایش کد -->
+    <div id="codeModal" class="code-modal">
+        <div class="code-container">
+            <div class="code-header">
+                <div class="code-title" id="codeTitle">نمایش متن</div>
+                <button class="code-close" onclick="closeCodeModal()">
+                    <i class="fas fa-times" style="margin-left: 5px;"></i>
+                    بستن
+                </button>
+            </div>
+            <div class="code-content" id="codeContent">
+                <div class="code-block">
+                    <pre><code class="language-javascript" id="codeElement">// متن شما اینجا نمایش داده خواهد شد</code></pre>
+                </div>
+            </div>
+            <div class="code-actions">
+                <button class="copy-btn" onclick="copyAllCode()">
+                    <i class="fas fa-copy" style="margin-left: 5px;"></i>
+                    کپی تمام متن
+                </button>
+                <button class="share-modal-btn" onclick="shareCurrentCode()">
+                    <i class="fas fa-share" style="margin-left: 5px;"></i>
+                    اشتراک‌گذاری
+                </button>
+                <span class="copy-success" id="copySuccess">✓ کپی شد!</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js"></script>
+    <script>
+        // داده‌های جهانی
+        let messagesData = [];
+        let currentCodeId = null;
+        let myDeviceId = null;
+        let currentTheme = 'dark';
+        let typingTimer = null;
+        let uploadedFiles = [];
+        
+        // متغیرهای ضبط صدا
+        let mediaRecorder = null;
+        let audioChunks = [];
+        let isRecording = false;
+        let recordingStartTime = null;
+        let recordingTimer = null;
+        
+        // ایجاد ستاره‌های متحرک
+        function createStars() {
+            const stars = document.getElementById('stars');
+            const starCount = 200;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                const size = Math.random() * 3;
+                const left = Math.random() * 100;
+                const top = Math.random() * 100;
+                const delay = Math.random() * 5;
+                
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${left}%`;
+                star.style.top = `${top}%`;
+                star.style.animationDelay = `${delay}s`;
+                
+                stars.appendChild(star);
+            }
+        }
+        
+        // نمایش نوتیفیکیشن
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.style.background = type === 'success' ? '#27ae60' : '#e74c3c';
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check' : 'exclamation'}-circle" style="margin-left: 8px;"></i>
+                ${message}
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+        
+        // تغییر تم
+        function toggleTheme() {
+            currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            const themeIcon = document.querySelector('.theme-toggle i');
+            
+            if (currentTheme === 'light') {
+                document.body.style.filter = 'invert(1) hue-rotate(180deg)';
+                themeIcon.className = 'fas fa-sun';
+            } else {
+                document.body.style.filter = 'none';
+                themeIcon.className = 'fas fa-moon';
+            }
+        }
+        
+        // تشخیص کد بر اساس کوتیشن‌ها
+        function detectCode(messageText) {
+            const doubleQuotes = (messageText.match(/"/g) || []).length;
+            const singleQuotes = (messageText.match(/'/g) || []).length;
+            const totalQuotes = doubleQuotes + singleQuotes;
+            
+            return totalQuotes >= 2 && messageText.length >= 10;
+        }
+        
+        // ثبت دستگاه فعال
+        function registerDevice() {
+            if (!myDeviceId) return;
+            
+            const deviceData = {
+                device_id: myDeviceId,
+                username: `کاربر ${myDeviceId}`,
+                timestamp: Date.now(),
+                isTyping: false,
+                lastSeen: new Date().toLocaleTimeString('fa-IR')
+            };
+            
+            let currentDevices = {};
+            try {
+                currentDevices = JSON.parse(localStorage.getItem('moon_active_devices') || '{}');
+            } catch (e) {
+                currentDevices = {};
+            }
+            
+            currentDevices[myDeviceId] = deviceData;
+            localStorage.setItem('moon_active_devices', JSON.stringify(currentDevices));
+            
+            return currentDevices;
+        }
+        
+        // نشان دادن وضعیت تایپ
+        function setTypingStatus(isTyping) {
+            if (!myDeviceId) return;
+            
+            const devices = JSON.parse(localStorage.getItem('moon_active_devices') || '{}');
+            if (devices[myDeviceId]) {
+                devices[myDeviceId].isTyping = isTyping;
+                devices[myDeviceId].timestamp = Date.now();
+                devices[myDeviceId].lastSeen = new Date().toLocaleTimeString('fa-IR');
+                localStorage.setItem('moon_active_devices', JSON.stringify(devices));
+            }
+        }
+        
+        // مدیریت تایپ
+        function handleTyping() {
+            setTypingStatus(true);
+            
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(() => {
+                setTypingStatus(false);
+            }, 1000);
+        }
+        
+        // دریافت دستگاه‌های فعال
+        function getActiveDevices() {
+            let devices = {};
+            try {
+                devices = JSON.parse(localStorage.getItem('moon_active_devices') || '{}');
+            } catch (e) {
+                devices = {};
+            }
+            
+            const now = Date.now();
+            const activeDevices = {};
+            let someoneTyping = false;
+            
+            for (const [deviceId, deviceInfo] of Object.entries(devices)) {
+                if (now - deviceInfo.timestamp < 120000) {
+                    activeDevices[deviceId] = {
+                        ...deviceInfo,
+                        time: deviceInfo.lastSeen || new Date(deviceInfo.timestamp).toLocaleTimeString('fa-IR')
+                    };
+                    
+                    if (deviceInfo.isTyping && parseInt(deviceId) !== myDeviceId) {
+                        someoneTyping = true;
+                    }
+                }
+            }
+            
+            const typingIndicator = document.getElementById('typingIndicator');
+            typingIndicator.style.display = someoneTyping ? 'block' : 'none';
+            
+            localStorage.setItem('moon_active_devices', JSON.stringify(activeDevices));
+            return activeDevices;
+        }
+        
+        // ذخیره پیام
+        function saveMessage(messageText, deviceId, files = [], audio = null) {
+            const messages = JSON.parse(localStorage.getItem('moon_messages') || '[]');
+            const now = new Date();
+            
+            const isCode = detectCode(messageText);
+            const language = 'text';
+            const lineCount = messageText.split('\n').length;
+            
+            const newMessage = {
+                id: Date.now(),
+                text: messageText,
+                time: now.toLocaleTimeString('fa-IR'),
+                device_id: deviceId,
+                line_count: lineCount,
+                char_count: messageText.length,
+                is_code: isCode,
+                language: language,
+                timestamp: now.getTime(),
+                files: files,
+                audio: audio,
+                reactions: {},
+                replies: []
+            };
+            
+            messages.push(newMessage);
+            localStorage.setItem('moon_messages', JSON.stringify(messages));
+            
+            return newMessage;
+        }
+        
+        // دریافت پیام‌ها
+        function getMessages() {
+            try {
+                return JSON.parse(localStorage.getItem('moon_messages') || '[]');
+            } catch (e) {
+                return [];
+            }
+        }
+        
+        // دریافت آمار
+        function getStats() {
+            const messages = getMessages();
+            const activeDevices = getActiveDevices();
+            
+            const totalCodes = messages.filter(msg => msg.is_code).length;
+            
+            return {
+                total_messages: messages.length,
+                total_codes: totalCodes,
+                active_devices: Object.keys(activeDevices).length
+            };
+        }
+        
+        // جستجو در پیام‌ها
+        function searchMessages(query) {
+            const messages = getMessages();
+            return messages.filter(msg => 
+                msg.text.toLowerCase().includes(query.toLowerCase()) ||
+                (msg.files && msg.files.some(file => file.name.toLowerCase().includes(query.toLowerCase())))
+            );
+        }
+        
+        // مدیریت آپلود فایل
+        function handleFileUpload(files) {
+            for (let file of files) {
+                if (file.size > 5 * 1024 * 1024) {
+                    showNotification('حجم فایل باید کمتر از 5MB باشد!', 'error');
+                    continue;
+                }
+                
+                const fileData = {
+                    name: file.name,
+                    size: formatFileSize(file.size),
+                    type: file.type,
+                    url: URL.createObjectURL(file)
+                };
+                
+                uploadedFiles.push(fileData);
+                updateUploadedFilesList();
+            }
+        }
+        
+        // فرمت سایز فایل
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        
+        // به‌روزرسانی لیست فایل‌های آپلود شده
+        function updateUploadedFilesList() {
+            const container = document.getElementById('uploadedFiles');
+            container.innerHTML = '';
+            
+            uploadedFiles.forEach((file, index) => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                fileItem.innerHTML = `
+                    <div>
+                        <div class="file-name">
+                            <i class="fas fa-file" style="margin-left: 5px;"></i>
+                            ${file.name}
+                        </div>
+                        <div class="file-size">${file.size}</div>
+                    </div>
+                    <button onclick="removeFile(${index})" style="background: none; border: none; color: #ff4757; cursor: pointer;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                container.appendChild(fileItem);
+            });
+        }
+        
+        // حذف فایل
+        function removeFile(index) {
+            uploadedFiles.splice(index, 1);
+            updateUploadedFilesList();
+        }
+        
+        // اضافه کردن ری‌اکشن
+        function addReaction(messageId, reaction) {
+            const messages = getMessages();
+            const message = messages.find(msg => msg.id == messageId);
+            
+            if (message) {
+                if (!message.reactions) message.reactions = {};
+                if (!message.reactions[reaction]) message.reactions[reaction] = 0;
+                message.reactions[reaction]++;
+                
+                localStorage.setItem('moon_messages', JSON.stringify(messages));
+                loadMessages();
+            }
+        }
+        
+        // اضافه کردن پاسخ
+        function addReply(messageId, replyText) {
+            const messages = getMessages();
+            const message = messages.find(msg => msg.id == messageId);
+            
+            if (message) {
+                if (!message.replies) message.replies = [];
+                message.replies.push({
+                    text: replyText,
+                    device_id: myDeviceId,
+                    time: new Date().toLocaleTimeString('fa-IR')
+                });
+                
+                localStorage.setItem('moon_messages', JSON.stringify(messages));
+                loadMessages();
+            }
+        }
+        
+        // شروع ضبط صدا
+        async function startRecording() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+                
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) {
+                        audioChunks.push(event.data);
+                    }
+                };
+                
+                mediaRecorder.onstop = () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    
+                    const audioFile = {
+                        name: `voice_message_${Date.now()}.wav`,
+                        size: formatFileSize(audioBlob.size),
+                        type: 'audio/wav',
+                        url: audioUrl,
+                        duration: Math.floor((Date.now() - recordingStartTime) / 1000)
+                    };
+                    
+                    uploadedFiles.push(audioFile);
+                    updateUploadedFilesList();
+                    
+                    stream.getTracks().forEach(track => track.stop());
+                };
+                
+                mediaRecorder.start();
+                isRecording = true;
+                recordingStartTime = Date.now();
+                
+                const recordButton = document.getElementById('recordButton');
+                const recordingStatus = document.getElementById('recordingStatus');
+                
+                recordButton.innerHTML = '<i class="fas fa-stop"></i> توقف ضبط';
+                recordButton.classList.add('recording');
+                recordingStatus.style.display = 'block';
+                
+                startRecordingTimer();
+                
+            } catch (error) {
+                console.error('خطا در دسترسی به میکروفون:', error);
+                showNotification('دسترسی به میکروفون امکان‌پذیر نیست!', 'error');
+            }
+        }
+        
+        // توقف ضبط صدا
+        function stopRecording() {
+            if (mediaRecorder && isRecording) {
+                mediaRecorder.stop();
+                isRecording = false;
+                
+                clearInterval(recordingTimer);
+                
+                const recordButton = document.getElementById('recordButton');
+                const recordingStatus = document.getElementById('recordingStatus');
+                
+                recordButton.innerHTML = '<i class="fas fa-microphone"></i> شروع ضبط صدا';
+                recordButton.classList.remove('recording');
+                recordingStatus.style.display = 'none';
+            }
+        }
+        
+        // شروع تایمر ضبط
+        function startRecordingTimer() {
+            recordingTimer = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - recordingStartTime) / 1000);
+                const minutes = Math.floor(elapsed / 60);
+                const seconds = elapsed % 60;
+                document.getElementById('recordingTime').textContent = 
+                    `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            }, 1000);
+        }
+        
+        // مدیریت کلیک روی دکمه ضبط
+        document.getElementById('recordButton').addEventListener('click', function() {
+            if (isRecording) {
+                stopRecording();
+            } else {
+                startRecording();
+            }
+        });
+        
+        // حذف همه پیام‌ها
+        function deleteAllMessages() {
+            if (confirm('آیا از حذف تمام پیام‌ها مطمئن هستید؟ این عمل قابل بازگشت نیست!')) {
+                localStorage.removeItem('moon_messages');
+                localStorage.removeItem('moon_saved_codes');
+                messagesData = [];
+                loadMessages();
+                showNotification('تمامی پیام‌ها با موفقیت حذف شدند!');
+            }
+        }
+        
+        // دریافت پیام‌های جدید
+        async function loadMessages() {
+            try {
+                const searchQuery = document.getElementById('searchInput').value;
+                const messages = searchQuery ? searchMessages(searchQuery) : getMessages();
+                const activeDevices = getActiveDevices();
+                const stats = getStats();
+                
+                messagesData = messages;
+                
+                document.getElementById('totalMessages').textContent = stats.total_messages;
+                document.getElementById('totalCodes').textContent = stats.total_codes;
+                document.getElementById('activeDevicesCount').textContent = stats.active_devices;
+                document.getElementById('onlineUsers').textContent = stats.active_devices;
+                
+                if (messages.length > 0) {
+                    const messagesList = document.getElementById('messagesList');
+                    messagesList.innerHTML = '';
+                    
+                    messages.sort((a, b) => b.timestamp - a.timestamp);
+                    
+                    messages.forEach(msg => {
+                        const messageCard = document.createElement('div');
+                        messageCard.className = `message-card ${msg.is_code ? 'code-message' : ''}`;
+                        
+                        const isCode = msg.is_code;
+                        const preview = msg.text.length > 200 ? msg.text.substring(0, 200) + '...' : msg.text;
+                        
+                        let filesHtml = '';
+                        if (msg.files && msg.files.length > 0) {
+                            filesHtml = msg.files.map(file => `
+                                <div class="file-item">
+                                    <div>
+                                        <div class="file-name">
+                                            <i class="fas fa-file" style="margin-left: 5px;"></i>
+                                            ${file.name}
+                                        </div>
+                                        <div class="file-size">${file.size}</div>
+                                    </div>
+                                    <a href="${file.url}" download="${file.name}" style="color: #a0a0ff;">
+                                        <i class="fas fa-download"></i>
+                                    </a>
+                                </div>
+                            `).join('');
+                        }
+                        
+                        let audioHtml = '';
+                        if (msg.audio) {
+                            audioHtml = `
+                                <div class="audio-message">
+                                    <div style="font-size: 12px; color: #a0a0ff; margin-bottom: 5px;">
+                                        <i class="fas fa-microphone" style="margin-left: 5px;"></i>
+                                        پیام صوتی
+                                    </div>
+                                    <audio controls class="audio-player">
+                                        <source src="${msg.audio.url}" type="audio/wav">
+                                        مرورگر شما از پخش صدا پشتیبانی نمی‌کند.
+                                    </audio>
+                                    <div class="audio-duration">
+                                        مدت: ${msg.audio.duration} ثانیه
+                                    </div>
+                                </div>
+                            `;
+                        }
+                        
+                        let repliesHtml = '';
+                        if (msg.replies && msg.replies.length > 0) {
+                            repliesHtml = `
+                                <div class="reply-section">
+                                    ${msg.replies.map(reply => `
+                                        <div class="reply-message">
+                                            <strong>کاربر ${reply.device_id}:</strong> ${reply.text}
+                                            <div class="message-time">${reply.time}</div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            `;
+                        }
+                        
+                        let reactionsHtml = '';
+                        if (msg.reactions && Object.keys(msg.reactions).length > 0) {
+                            reactionsHtml = `
+                                <div class="reaction-buttons">
+                                    ${Object.entries(msg.reactions).map(([reaction, count]) => `
+                                        <div class="reaction-btn">
+                                            ${reaction} ${count}
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            `;
+                        }
+                        
+                        messageCard.innerHTML = `
+                            <div class="device-badge">
+                                <i class="fas fa-user" style="margin-left: 5px;"></i>
+                                کاربر ${msg.device_id}
+                                ${isCode ? '<span class="code-indicator">کد</span>' : ''}
+                            </div>
+                            ${msg.text ? `<div class="message-text ${isCode ? 'code-preview' : ''}">${escapeHtml(preview)}</div>` : ''}
+                            ${audioHtml}
+                            ${filesHtml}
+                            <div class="message-time">
+                                <i class="fas fa-clock" style="margin-left: 5px;"></i>
+                                ${msg.time}
+                                ${isCode ? `<span style="color: #27ae60; margin-right: 5px;">• ${msg.line_count} خط</span>` : ''}
+                                ${msg.char_count ? `<span style="color: #3498db; margin-right: 5px;">• ${msg.char_count} کاراکتر</span>` : ''}
+                            </div>
+                            ${reactionsHtml}
+                            <div class="action-buttons">
+                                ${isCode ? `
+                                <button class="open-code-btn" onclick="showCodeModal('${msg.id}')">
+                                    <i class="fas fa-expand"></i>
+                                    نمایش کامل
+                                </button>
+                                ` : ''}
+                                <button class="share-code-btn" onclick="shareCode('${msg.id}')">
+                                    <i class="fas fa-share"></i>
+                                    اشتراک‌گذاری
+                                </button>
+                                <button class="save-code-btn" onclick="saveCode('${msg.id}')">
+                                    <i class="fas fa-bookmark"></i>
+                                    ذخیره
+                                </button>
+                                <button class="react-btn" onclick="addReaction('${msg.id}', '👍')">
+                                    <i class="fas fa-thumbs-up"></i>
+                                </button>
+                                <button class="reply-btn" onclick="promptReply('${msg.id}')">
+                                    <i class="fas fa-reply"></i>
+                                    پاسخ
+                                </button>
+                            </div>
+                            ${repliesHtml}
+                        `;
+                        messagesList.appendChild(messageCard);
+                    });
+                } else {
+                    const messagesList = document.getElementById('messagesList');
+                    messagesList.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-comment" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                            <p>هنوز پیامی ارسال نشده است</p>
+                            <p style="font-size: 14px; margin-top: 10px;">اولین پیام را ارسال کنید!</p>
+                        </div>
+                    `;
+                }
+                
+                const devicesList = document.getElementById('devicesList');
+                devicesList.innerHTML = '';
+                
+                const deviceEntries = Object.entries(activeDevices);
+                
+                if (deviceEntries.length > 0) {
+                    deviceEntries.forEach(([deviceId, deviceInfo]) => {
+                        const deviceItem = document.createElement('div');
+                        deviceItem.className = 'device-item';
+                        deviceItem.innerHTML = `
+                            <div>
+                                <i class="fas fa-user" style="margin-left: 5px;"></i>
+                                ${deviceInfo.username}
+                                ${deviceInfo.isTyping ? '<small style="color: #a0a0ff;">(در حال تایپ...)</small>' : ''}
+                            </div>
+                            <span style="font-size: 10px; color: #a0a0ff;">
+                                ${deviceInfo.time}
+                            </span>
+                        `;
+                        devicesList.appendChild(deviceItem);
+                    });
+                } else {
+                    devicesList.innerHTML = '<div style="text-align: center; color: rgba(255,255,255,0.5); padding: 10px;">هیچ کاربر فعالی وجود ندارد</div>';
+                }
+                
+                updateSavedCodes();
+                
+            } catch (error) {
+                console.error('خطا در بارگذاری پیام‌ها:', error);
+            }
+        }
+        
+        // نمایش مودال کد
+        function showCodeModal(messageId) {
+            const message = messagesData.find(msg => msg.id == messageId);
+            if (!message) {
+                showNotification('پیام مورد نظر پیدا نشد!', 'error');
+                return;
+            }
+            
+            currentCodeId = messageId;
+            const codeContent = document.getElementById('codeContent');
+            const codeTitle = document.getElementById('codeTitle');
+            const codeElement = document.getElementById('codeElement');
+            
+            codeTitle.textContent = `متن - کاربر ${message.device_id}`;
+            codeElement.textContent = message.text;
+            codeElement.className = `language-javascript`;
+            
+            Prism.highlightElement(codeElement);
+            
+            document.getElementById('codeModal').style.display = 'block';
+            document.getElementById('copySuccess').style.display = 'none';
+            
+            window.currentCode = message.text;
+            window.currentLanguage = 'text';
+        }
+        
+        // بستن مودال کد
+        function closeCodeModal() {
+            document.getElementById('codeModal').style.display = 'none';
+            currentCodeId = null;
+        }
+        
+        // کپی کردن تمام کد
+        function copyAllCode() {
+            if (!window.currentCode) return;
+            
+            navigator.clipboard.writeText(window.currentCode).then(() => {
+                const copySuccess = document.getElementById('copySuccess');
+                copySuccess.style.display = 'inline';
+                setTimeout(() => {
+                    copySuccess.style.display = 'none';
+                }, 3000);
+            }).catch(err => {
+                console.error('خطا در کپی کردن:', err);
+                const textArea = document.createElement('textarea');
+                textArea.value = window.currentCode;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                const copySuccess = document.getElementById('copySuccess');
+                copySuccess.style.display = 'inline';
+                setTimeout(() => {
+                    copySuccess.style.display = 'none';
+                }, 3000);
+            });
+        }
+        
+        // اشتراک‌گذاری کد
+        function shareCode(messageId) {
+            const message = messagesData.find(msg => msg.id == messageId);
+            if (!message) return;
+            
+            const shareUrl = `${window.location.origin}/code/${messageId}`;
+            navigator.clipboard.writeText(shareUrl).then(() => {
+                showNotification('لینک متن در حافظه کلیپ‌بورد کپی شد!');
+            });
+        }
+        
+        function shareCurrentCode() {
+            if (!currentCodeId) return;
+            shareCode(currentCodeId);
+        }
+        
+        // ذخیره کد
+        function saveCode(messageId) {
+            const message = messagesData.find(msg => msg.id == messageId);
+            if (!message) return;
+            
+            const savedCodes = JSON.parse(localStorage.getItem('moon_saved_codes') || '{}');
+            const userCodes = savedCodes[myDeviceId] || [];
+            
+            if (!userCodes.find(code => code.id == messageId)) {
+                userCodes.push({
+                    id: messageId,
+                    text: message.text,
+                    time: message.time,
+                    language: 'text',
+                    preview: message.text.substring(0, 100) + (message.text.length > 100 ? '...' : '')
+                });
+                
+                savedCodes[myDeviceId] = userCodes;
+                localStorage.setItem('moon_saved_codes', JSON.stringify(savedCodes));
+                showNotification('متن با موفقیت ذخیره شد!');
+                updateSavedCodes();
+            } else {
+                showNotification('این متن قبلاً ذخیره شده است!', 'error');
+            }
+        }
+        
+        // درخواست پاسخ
+        function promptReply(messageId) {
+            const replyText = prompt('پاسخ خود را وارد کنید:');
+            if (replyText && replyText.trim()) {
+                addReply(messageId, replyText.trim());
+            }
+        }
+        
+        // به‌روزرسانی لیست کدهای ذخیره شده
+        function updateSavedCodes() {
+            const savedCodes = JSON.parse(localStorage.getItem('moon_saved_codes') || '{}');
+            const userCodes = savedCodes[myDeviceId] || [];
+            
+            const savedCodesList = document.getElementById('savedCodesList');
+            savedCodesList.innerHTML = '';
+            
+            if (userCodes.length === 0) {
+                savedCodesList.innerHTML = '<div style="text-align: center; color: rgba(255,255,255,0.5); padding: 10px; font-size: 12px;">متن ذخیره شده‌ای ندارید</div>';
+            } else {
+                userCodes.forEach(code => {
+                    const codeItem = document.createElement('div');
+                    codeItem.className = 'saved-code-item';
+                    codeItem.innerHTML = `
+                        <div style="font-weight: bold; margin-bottom: 5px;">متن - ${code.time}</div>
+                        <div style="font-size: 11px; opacity: 0.8; margin-bottom: 8px;">${code.preview}...</div>
+                        <button class="open-code-btn" style="font-size: 10px; padding: 4px 8px;" onclick="showCodeModal('${code.id}')">
+                            <i class="fas fa-eye"></i>
+                            مشاهده
+                        </button>
+                    `;
+                    savedCodesList.appendChild(codeItem);
+                });
+            }
+        }
+        
+        // فرار کردن HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // ارسال فرم
+        document.getElementById('messageForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const messageText = document.getElementById('message').value;
+            const audioFile = uploadedFiles.find(file => file.type === 'audio/wav');
+            
+            if (!messageText.trim() && uploadedFiles.length === 0 && !audioFile) {
+                showNotification('لطفاً پیام، فایل یا صوت وارد کنید!', 'error');
+                return;
+            }
+            
+            try {
+                const newMessage = saveMessage(messageText, myDeviceId, uploadedFiles.filter(file => file.type !== 'audio/wav'), audioFile);
+                
+                registerDevice();
+                setTypingStatus(false);
+                
+                document.getElementById('message').value = '';
+                uploadedFiles = [];
+                updateUploadedFilesList();
+                
+                await loadMessages();
+                
+                showNotification('پیام با موفقیت ارسال شد!');
+                
+            } catch (error) {
+                console.error('خطا در ارسال پیام:', error);
+                showNotification('خطا در ارسال پیام!', 'error');
+            }
+        });
+        
+        // جستجوی پیام‌ها
+        document.getElementById('searchInput').addEventListener('input', function() {
+            loadMessages();
+        });
+        
+        // کلیدهای میانبر
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'Enter') {
+                document.getElementById('messageForm').dispatchEvent(new Event('submit'));
+            }
+            
+            if (e.key === 'Escape') {
+                closeCodeModal();
+            }
+            
+            if (e.ctrlKey && e.key === 'k') {
+                e.preventDefault();
+                document.getElementById('searchInput').focus();
+            }
+        });
+        
+        // مقداردهی اولیه
+        document.addEventListener('DOMContentLoaded', function() {
+            createStars();
+            
+            let deviceId = localStorage.getItem('moon_device_id');
+            if (!deviceId) {
+                deviceId = "1";
+                localStorage.setItem('moon_device_id', deviceId);
+            }
+            
+            myDeviceId = parseInt(deviceId);
+            document.getElementById('myDeviceId').textContent = `کاربر ${myDeviceId}`;
+            
+            registerDevice();
+            loadMessages();
+            
+            setInterval(function() {
+                registerDevice();
+                loadMessages();
+            }, 3000);
+            
+            document.getElementById('codeModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeCodeModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
