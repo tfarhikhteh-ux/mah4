@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>پیام‌رسان چندکاربره ماه</title>
+    <title>پیام‌رسان ماه</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
     <style>
@@ -221,11 +221,6 @@
             background: rgba(39, 174, 96, 0.1);
         }
         
-        .message-card.own-message {
-            border-right: 4px solid #3498db;
-            background: rgba(52, 152, 219, 0.1);
-        }
-        
         .device-badge {
             display: inline-block;
             background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
@@ -235,10 +230,6 @@
             font-size: 12px;
             font-weight: bold;
             margin-bottom: 10px;
-        }
-        
-        .device-badge.own-badge {
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
         }
         
         .message-text {
@@ -328,11 +319,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-        
-        .device-item.current-user {
-            background: rgba(52, 152, 219, 0.2);
-            border: 1px solid rgba(52, 152, 219, 0.5);
         }
         
         .refresh-info {
@@ -795,41 +781,6 @@
             color: #a0a0ff;
             margin-top: 5px;
         }
-        
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-        }
-        
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-        
-        .user-info {
-            flex: 1;
-        }
-        
-        .user-name {
-            font-size: 14px;
-            font-weight: bold;
-        }
-        
-        .user-status {
-            font-size: 11px;
-            color: #a0a0ff;
-        }
     </style>
 </head>
 <body>
@@ -848,16 +799,15 @@
                 <div class="moon"></div>
             </div>
             <div class="moon-title">ماه</div>
-            <div style="font-size: 1.2rem; margin-top: 10px; color: #a0a0ff;">پیام‌رسان چندکاربره تعاملی</div>
         </div>
         
         <!-- محتوای اصلی -->
         <div class="content">
-            <!-- سایدبار سمت راست - کاربران آنلاین -->
+            <!-- سایدبار سمت راست - دستگاه‌های فعال -->
             <div class="sidebar">
                 <h3 style="margin-bottom: 15px; color: #a0a0ff;">
                     <i class="fas fa-laptop" style="margin-left: 8px;"></i>
-                    کاربران آنلاین
+                    دستگاه‌های فعال
                 </h3>
                 
                 <div class="stats-grid">
@@ -870,12 +820,12 @@
                         <div class="stat-label">کد شناسایی شده</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-value" id="activeUsersCount">0</div>
-                        <div class="stat-label">کاربر آنلاین</div>
+                        <div class="stat-value" id="activeDevicesCount">0</div>
+                        <div class="stat-label">دستگاه فعال</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-value" id="totalUsers">0</div>
-                        <div class="stat-label">کاربر کل</div>
+                        <div class="stat-value" id="onlineUsers">0</div>
+                        <div class="stat-label">کاربر فعال</div>
                     </div>
                 </div>
                 
@@ -884,7 +834,7 @@
                         <i class="fas fa-users" style="margin-left: 8px;"></i>
                         کاربران فعال
                     </h4>
-                    <div id="usersList">
+                    <div id="devicesList">
                         <div class="loading">
                             <i class="fas fa-spinner fa-spin"></i>
                             در حال بارگذاری...
@@ -898,7 +848,7 @@
                 
                 <div class="refresh-info">
                     <i class="fas fa-sync-alt" style="margin-left: 5px;"></i>
-                    بروزرسانی خودکار هر ۲ ثانیه
+                    بروزرسانی خودکار هر ۳ ثانیه
                 </div>
 
                 <!-- دکمه حذف همه -->
@@ -935,24 +885,6 @@
                     <i class="fas fa-paper-plane" style="margin-left: 8px;"></i>
                     ارسال پیام
                 </h3>
-                
-                <div class="user-profile">
-                    <div class="user-avatar" id="userAvatar">
-                        U
-                    </div>
-                    <div class="user-info">
-                        <div class="user-name" id="userNameDisplay">کاربر جدید</div>
-                        <div class="user-status">
-                            <span class="online-indicator"></span>
-                            آنلاین
-                        </div>
-                    </div>
-                </div>
-                
-                <div style="margin-bottom: 15px; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 10px;">
-                    <div style="font-size: 14px; margin-bottom: 5px;">نام کاربری خود را تنظیم کنید:</div>
-                    <input type="text" id="usernameInput" style="width: 100%; padding: 8px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 5px; color: white;" placeholder="نام خود را وارد کنید" onchange="updateUserProfile()">
-                </div>
                 
                 <!-- ضبط صدا -->
                 <div class="voice-recorder">
@@ -995,6 +927,12 @@
                     </button>
                 </form>
                 
+                <div style="margin-top: 15px; font-size: 12px; color: #a0a0ff;">
+                    <i class="fas fa-user" style="margin-left: 5px;"></i>
+                    شما: <span id="myDeviceId">کاربر ۱</span>
+                    <span class="online-indicator"></span>
+                </div>
+                
                 <div class="saved-codes">
                     <h4 style="margin: 20px 0 10px; color: #a0a0ff;">
                         <i class="fas fa-bookmark" style="margin-left: 8px;"></i>
@@ -1011,7 +949,7 @@
         
         <!-- فوتر -->
         <div class="footer">
-            <div style="font-size: 1.1rem; margin-bottom: 10px; color: #a0a0ff;">پیام‌رسان چندکاربره ماه</div>
+            <div style="font-size: 1.1rem; margin-bottom: 10px; color: #a0a0ff;">پیام‌رسان ماه</div>
             <div class="designer-box">
                 <i class="fas fa-palette" style="margin-left: 8px;"></i>
                 طراح: طاها فرهیخته
@@ -1056,7 +994,7 @@
         // داده‌های جهانی
         let messagesData = [];
         let currentCodeId = null;
-        let myUserId = null;
+        let myDeviceId = null;
         let currentTheme = 'dark';
         let typingTimer = null;
         let uploadedFiles = [];
@@ -1132,64 +1070,41 @@
             return totalQuotes >= 2 && messageText.length >= 10;
         }
         
-        // تولید شناسه تصادفی برای کاربر
-        function generateUserId() {
-            return 'user_' + Math.random().toString(36).substr(2, 9);
-        }
-        
-        // ثبت کاربر فعال
-        function registerUser() {
-            if (!myUserId) return;
+        // ثبت دستگاه فعال
+        function registerDevice() {
+            if (!myDeviceId) return;
             
-            const username = document.getElementById('usernameInput').value || 'کاربر ناشناس';
-            
-            const userData = {
-                user_id: myUserId,
-                username: username,
+            const deviceData = {
+                device_id: myDeviceId,
+                username: `کاربر ${myDeviceId}`,
                 timestamp: Date.now(),
                 isTyping: false,
                 lastSeen: new Date().toLocaleTimeString('fa-IR')
             };
             
-            let currentUsers = {};
+            let currentDevices = {};
             try {
-                currentUsers = JSON.parse(localStorage.getItem('moon_active_users') || '{}');
+                currentDevices = JSON.parse(localStorage.getItem('moon_active_devices') || '{}');
             } catch (e) {
-                currentUsers = {};
+                currentDevices = {};
             }
             
-            currentUsers[myUserId] = userData;
-            localStorage.setItem('moon_active_users', JSON.stringify(currentUsers));
+            currentDevices[myDeviceId] = deviceData;
+            localStorage.setItem('moon_active_devices', JSON.stringify(currentDevices));
             
-            // به‌روزرسانی نمایش پروفایل کاربر
-            updateUserProfile();
-            
-            return currentUsers;
-        }
-        
-        // به‌روزرسانی پروفایل کاربر
-        function updateUserProfile() {
-            const username = document.getElementById('usernameInput').value || 'کاربر ناشناس';
-            document.getElementById('userNameDisplay').textContent = username;
-            document.getElementById('userAvatar').textContent = username.charAt(0);
-            
-            // ذخیره نام کاربری
-            localStorage.setItem('moon_username', username);
-            
-            // ثبت کاربر با نام جدید
-            registerUser();
+            return currentDevices;
         }
         
         // نشان دادن وضعیت تایپ
         function setTypingStatus(isTyping) {
-            if (!myUserId) return;
+            if (!myDeviceId) return;
             
-            const users = JSON.parse(localStorage.getItem('moon_active_users') || '{}');
-            if (users[myUserId]) {
-                users[myUserId].isTyping = isTyping;
-                users[myUserId].timestamp = Date.now();
-                users[myUserId].lastSeen = new Date().toLocaleTimeString('fa-IR');
-                localStorage.setItem('moon_active_users', JSON.stringify(users));
+            const devices = JSON.parse(localStorage.getItem('moon_active_devices') || '{}');
+            if (devices[myDeviceId]) {
+                devices[myDeviceId].isTyping = isTyping;
+                devices[myDeviceId].timestamp = Date.now();
+                devices[myDeviceId].lastSeen = new Date().toLocaleTimeString('fa-IR');
+                localStorage.setItem('moon_active_devices', JSON.stringify(devices));
             }
         }
         
@@ -1203,28 +1118,27 @@
             }, 1000);
         }
         
-        // دریافت کاربران فعال
-        function getActiveUsers() {
-            let users = {};
+        // دریافت دستگاه‌های فعال
+        function getActiveDevices() {
+            let devices = {};
             try {
-                users = JSON.parse(localStorage.getItem('moon_active_users') || '{}');
+                devices = JSON.parse(localStorage.getItem('moon_active_devices') || '{}');
             } catch (e) {
-                users = {};
+                devices = {};
             }
             
             const now = Date.now();
-            const activeUsers = {};
+            const activeDevices = {};
             let someoneTyping = false;
             
-            for (const [userId, userInfo] of Object.entries(users)) {
-                // حذف کاربران غیرفعال (بیش از 10 ثانیه فعالیت نداشته‌اند)
-                if (now - userInfo.timestamp < 10000) {
-                    activeUsers[userId] = {
-                        ...userInfo,
-                        time: userInfo.lastSeen || new Date(userInfo.timestamp).toLocaleTimeString('fa-IR')
+            for (const [deviceId, deviceInfo] of Object.entries(devices)) {
+                if (now - deviceInfo.timestamp < 120000) {
+                    activeDevices[deviceId] = {
+                        ...deviceInfo,
+                        time: deviceInfo.lastSeen || new Date(deviceInfo.timestamp).toLocaleTimeString('fa-IR')
                     };
                     
-                    if (userInfo.isTyping && userId !== myUserId) {
+                    if (deviceInfo.isTyping && parseInt(deviceId) !== myDeviceId) {
                         someoneTyping = true;
                     }
                 }
@@ -1233,12 +1147,12 @@
             const typingIndicator = document.getElementById('typingIndicator');
             typingIndicator.style.display = someoneTyping ? 'block' : 'none';
             
-            localStorage.setItem('moon_active_users', JSON.stringify(activeUsers));
-            return activeUsers;
+            localStorage.setItem('moon_active_devices', JSON.stringify(activeDevices));
+            return activeDevices;
         }
         
         // ذخیره پیام
-        function saveMessage(messageText, userId, files = [], audio = null) {
+        function saveMessage(messageText, deviceId, files = [], audio = null) {
             const messages = JSON.parse(localStorage.getItem('moon_messages') || '[]');
             const now = new Date();
             
@@ -1246,14 +1160,11 @@
             const language = 'text';
             const lineCount = messageText.split('\n').length;
             
-            const username = document.getElementById('usernameInput').value || 'کاربر ناشناس';
-            
             const newMessage = {
                 id: Date.now(),
                 text: messageText,
                 time: now.toLocaleTimeString('fa-IR'),
-                user_id: userId,
-                username: username,
+                device_id: deviceId,
                 line_count: lineCount,
                 char_count: messageText.length,
                 is_code: isCode,
@@ -1283,14 +1194,14 @@
         // دریافت آمار
         function getStats() {
             const messages = getMessages();
-            const activeUsers = getActiveUsers();
+            const activeDevices = getActiveDevices();
             
             const totalCodes = messages.filter(msg => msg.is_code).length;
             
             return {
                 total_messages: messages.length,
                 total_codes: totalCodes,
-                active_users: Object.keys(activeUsers).length
+                active_devices: Object.keys(activeDevices).length
             };
         }
         
@@ -1299,7 +1210,6 @@
             const messages = getMessages();
             return messages.filter(msg => 
                 msg.text.toLowerCase().includes(query.toLowerCase()) ||
-                msg.username.toLowerCase().includes(query.toLowerCase()) ||
                 (msg.files && msg.files.some(file => file.name.toLowerCase().includes(query.toLowerCase())))
             );
         }
@@ -1385,12 +1295,9 @@
             
             if (message) {
                 if (!message.replies) message.replies = [];
-                const username = document.getElementById('usernameInput').value || 'کاربر ناشناس';
-                
                 message.replies.push({
                     text: replyText,
-                    user_id: myUserId,
-                    username: username,
+                    device_id: myDeviceId,
                     time: new Date().toLocaleTimeString('fa-IR')
                 });
                 
@@ -1502,15 +1409,15 @@
             try {
                 const searchQuery = document.getElementById('searchInput').value;
                 const messages = searchQuery ? searchMessages(searchQuery) : getMessages();
-                const activeUsers = getActiveUsers();
+                const activeDevices = getActiveDevices();
                 const stats = getStats();
                 
                 messagesData = messages;
                 
                 document.getElementById('totalMessages').textContent = stats.total_messages;
                 document.getElementById('totalCodes').textContent = stats.total_codes;
-                document.getElementById('activeUsersCount').textContent = stats.active_users;
-                document.getElementById('totalUsers').textContent = stats.active_users;
+                document.getElementById('activeDevicesCount').textContent = stats.active_devices;
+                document.getElementById('onlineUsers').textContent = stats.active_devices;
                 
                 if (messages.length > 0) {
                     const messagesList = document.getElementById('messagesList');
@@ -1520,8 +1427,7 @@
                     
                     messages.forEach(msg => {
                         const messageCard = document.createElement('div');
-                        const isOwnMessage = msg.user_id === myUserId;
-                        messageCard.className = `message-card ${msg.is_code ? 'code-message' : ''} ${isOwnMessage ? 'own-message' : ''}`;
+                        messageCard.className = `message-card ${msg.is_code ? 'code-message' : ''}`;
                         
                         const isCode = msg.is_code;
                         const preview = msg.text.length > 200 ? msg.text.substring(0, 200) + '...' : msg.text;
@@ -1569,7 +1475,7 @@
                                 <div class="reply-section">
                                     ${msg.replies.map(reply => `
                                         <div class="reply-message">
-                                            <strong>${reply.username}:</strong> ${reply.text}
+                                            <strong>کاربر ${reply.device_id}:</strong> ${reply.text}
                                             <div class="message-time">${reply.time}</div>
                                         </div>
                                     `).join('')}
@@ -1591,9 +1497,9 @@
                         }
                         
                         messageCard.innerHTML = `
-                            <div class="device-badge ${isOwnMessage ? 'own-badge' : ''}">
+                            <div class="device-badge">
                                 <i class="fas fa-user" style="margin-left: 5px;"></i>
-                                ${msg.username} ${isOwnMessage ? '(شما)' : ''}
+                                کاربر ${msg.device_id}
                                 ${isCode ? '<span class="code-indicator">کد</span>' : ''}
                             </div>
                             ${msg.text ? `<div class="message-text ${isCode ? 'code-preview' : ''}">${escapeHtml(preview)}</div>` : ''}
@@ -1644,29 +1550,29 @@
                     `;
                 }
                 
-                const usersList = document.getElementById('usersList');
-                usersList.innerHTML = '';
+                const devicesList = document.getElementById('devicesList');
+                devicesList.innerHTML = '';
                 
-                const userEntries = Object.entries(activeUsers);
+                const deviceEntries = Object.entries(activeDevices);
                 
-                if (userEntries.length > 0) {
-                    userEntries.forEach(([userId, userInfo]) => {
-                        const userItem = document.createElement('div');
-                        userItem.className = `device-item ${userId === myUserId ? 'current-user' : ''}`;
-                        userItem.innerHTML = `
+                if (deviceEntries.length > 0) {
+                    deviceEntries.forEach(([deviceId, deviceInfo]) => {
+                        const deviceItem = document.createElement('div');
+                        deviceItem.className = 'device-item';
+                        deviceItem.innerHTML = `
                             <div>
                                 <i class="fas fa-user" style="margin-left: 5px;"></i>
-                                ${userInfo.username} ${userId === myUserId ? '(شما)' : ''}
-                                ${userInfo.isTyping ? '<small style="color: #a0a0ff;">(در حال تایپ...)</small>' : ''}
+                                ${deviceInfo.username}
+                                ${deviceInfo.isTyping ? '<small style="color: #a0a0ff;">(در حال تایپ...)</small>' : ''}
                             </div>
                             <span style="font-size: 10px; color: #a0a0ff;">
-                                ${userInfo.time}
+                                ${deviceInfo.time}
                             </span>
                         `;
-                        usersList.appendChild(userItem);
+                        devicesList.appendChild(deviceItem);
                     });
                 } else {
-                    usersList.innerHTML = '<div style="text-align: center; color: rgba(255,255,255,0.5); padding: 10px;">هیچ کاربر فعالی وجود ندارد</div>';
+                    devicesList.innerHTML = '<div style="text-align: center; color: rgba(255,255,255,0.5); padding: 10px;">هیچ کاربر فعالی وجود ندارد</div>';
                 }
                 
                 updateSavedCodes();
@@ -1689,7 +1595,7 @@
             const codeTitle = document.getElementById('codeTitle');
             const codeElement = document.getElementById('codeElement');
             
-            codeTitle.textContent = `متن - ${message.username}`;
+            codeTitle.textContent = `متن - کاربر ${message.device_id}`;
             codeElement.textContent = message.text;
             codeElement.className = `language-javascript`;
             
@@ -1757,7 +1663,7 @@
             if (!message) return;
             
             const savedCodes = JSON.parse(localStorage.getItem('moon_saved_codes') || '{}');
-            const userCodes = savedCodes[myUserId] || [];
+            const userCodes = savedCodes[myDeviceId] || [];
             
             if (!userCodes.find(code => code.id == messageId)) {
                 userCodes.push({
@@ -1768,7 +1674,7 @@
                     preview: message.text.substring(0, 100) + (message.text.length > 100 ? '...' : '')
                 });
                 
-                savedCodes[myUserId] = userCodes;
+                savedCodes[myDeviceId] = userCodes;
                 localStorage.setItem('moon_saved_codes', JSON.stringify(savedCodes));
                 showNotification('متن با موفقیت ذخیره شد!');
                 updateSavedCodes();
@@ -1788,7 +1694,7 @@
         // به‌روزرسانی لیست کدهای ذخیره شده
         function updateSavedCodes() {
             const savedCodes = JSON.parse(localStorage.getItem('moon_saved_codes') || '{}');
-            const userCodes = savedCodes[myUserId] || [];
+            const userCodes = savedCodes[myDeviceId] || [];
             
             const savedCodesList = document.getElementById('savedCodesList');
             savedCodesList.innerHTML = '';
@@ -1832,9 +1738,9 @@
             }
             
             try {
-                const newMessage = saveMessage(messageText, myUserId, uploadedFiles.filter(file => file.type !== 'audio/wav'), audioFile);
+                const newMessage = saveMessage(messageText, myDeviceId, uploadedFiles.filter(file => file.type !== 'audio/wav'), audioFile);
                 
-                registerUser();
+                registerDevice();
                 setTypingStatus(false);
                 
                 document.getElementById('message').value = '';
@@ -1854,11 +1760,6 @@
         // جستجوی پیام‌ها
         document.getElementById('searchInput').addEventListener('input', function() {
             loadMessages();
-        });
-        
-        // بروزرسانی نام کاربری
-        document.getElementById('usernameInput').addEventListener('input', function() {
-            updateUserProfile();
         });
         
         // کلیدهای میانبر
@@ -1881,30 +1782,22 @@
         document.addEventListener('DOMContentLoaded', function() {
             createStars();
             
-            let userId = localStorage.getItem('moon_user_id');
-            if (!userId) {
-                userId = generateUserId();
-                localStorage.setItem('moon_user_id', userId);
+            let deviceId = localStorage.getItem('moon_device_id');
+            if (!deviceId) {
+                deviceId = "1";
+                localStorage.setItem('moon_device_id', deviceId);
             }
             
-            myUserId = userId;
+            myDeviceId = parseInt(deviceId);
+            document.getElementById('myDeviceId').textContent = `کاربر ${myDeviceId}`;
             
-            // بارگذاری نام کاربری ذخیره شده
-            const savedUsername = localStorage.getItem('moon_username');
-            if (savedUsername) {
-                document.getElementById('usernameInput').value = savedUsername;
-            } else {
-                document.getElementById('usernameInput').value = `کاربر ${myUserId.substring(5, 9)}`;
-            }
-            
-            updateUserProfile();
+            registerDevice();
             loadMessages();
             
-            // به‌روزرسانی خودکار هر 2 ثانیه
             setInterval(function() {
-                registerUser();
+                registerDevice();
                 loadMessages();
-            }, 2000);
+            }, 3000);
             
             document.getElementById('codeModal').addEventListener('click', function(e) {
                 if (e.target === this) {
