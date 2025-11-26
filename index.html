@@ -7,182 +7,126 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        /* استایل‌های قبلی شما */
+        /* ... */
+        
+        /* استایل‌های جدید برای مدیریت کاربران */
+        .user-management {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
         }
         
-        body {
-            background: linear-gradient(135deg, #0c0c2e 0%, #1a1a4a 50%, #2d2d6e 100%);
-            min-height: 100vh;
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
             color: white;
-            overflow-x: hidden;
+            font-size: 18px;
         }
         
-        .stars {
+        .user-info {
+            flex: 1;
+        }
+        
+        .user-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .user-status {
+            font-size: 12px;
+            color: #a0a0ff;
+            display: flex;
+            align-items: center;
+        }
+        
+        .change-user-btn {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+            width: 100%;
+        }
+        
+        .change-user-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .user-modal {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-        
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 5s infinite;
-        }
-        
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
-        
-        .container {
-            max-width: 1600px;
-            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            overflow: auto;
             padding: 20px;
-            position: relative;
-            z-index: 2;
         }
         
-        .header {
+        .user-modal-content {
+            max-width: 500px;
+            margin: 50px auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+        }
+        
+        .user-modal-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #a0a0ff;
             text-align: center;
-            padding: 20px 0;
-            position: relative;
         }
         
-        .moon-container {
-            position: relative;
-            margin: 0 auto 15px;
-            width: 120px;
-            height: 120px;
-        }
-        
-        .moon {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
-            border-radius: 50%;
-            box-shadow: 
-                0 0 80px rgba(255, 255, 255, 0.8),
-                0 0 150px rgba(255, 255, 255, 0.4),
-                inset 0 0 50px rgba(0, 0, 0, 0.1);
-            animation: glow 4s ease-in-out infinite;
-            position: relative;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-        
-        .moon:hover {
-            transform: scale(1.1);
-        }
-        
-        .moon::before {
-            content: '';
-            position: absolute;
-            top: 20%;
-            left: 25%;
-            width: 30px;
-            height: 30px;
-            background: rgba(200, 200, 200, 0.3);
-            border-radius: 50%;
-            box-shadow: 
-                25px 25px 0 8px rgba(200, 200, 200, 0.2),
-                -15px -8px 0 4px rgba(200, 200, 200, 0.15);
-        }
-        
-        @keyframes glow {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        
-        .moon-title {
-            font-size: 3rem;
-            font-weight: bold;
-            color: #fff;
-            text-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
-            margin-top: 5px;
-            letter-spacing: 3px;
-        }
-        
-        .content {
-            display: grid;
-            grid-template-columns: 320px 1fr 320px;
-            gap: 20px;
-            margin-top: 25px;
-        }
-        
-        .sidebar {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 20px;
-            padding: 20px;
-            height: fit-content;
-        }
-        
-        .message-form {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 20px;
-            padding: 20px;
-            height: fit-content;
-        }
-        
-        .messages-container {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 20px;
-            padding: 20px;
-            max-height: 700px;
-            overflow-y: auto;
-        }
-        
-        .form-group {
+        .user-form-group {
             margin-bottom: 15px;
         }
         
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #a0a0ff;
-            font-weight: 500;
-        }
-        
-        textarea {
+        .user-input {
             width: 100%;
-            height: 120px;
             padding: 12px;
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.25);
             border-radius: 12px;
             color: white;
             font-size: 14px;
-            resize: vertical;
             transition: all 0.3s;
-            font-family: 'Courier New', monospace;
         }
         
-        textarea:focus {
+        .user-input:focus {
             outline: none;
             border-color: #a0a0ff;
             background: rgba(255, 255, 255, 0.15);
             box-shadow: 0 0 15px rgba(160, 160, 255, 0.3);
         }
         
-        textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-        
-        .btn-send {
+        .user-submit-btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
@@ -193,593 +137,20 @@
             width: 100%;
             transition: all 0.3s;
             font-weight: 600;
+            margin-top: 10px;
         }
         
-        .btn-send:hover {
+        .user-submit-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
-        .message-card {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            padding: 18px;
-            margin-bottom: 15px;
-            transition: all 0.3s;
-            position: relative;
-        }
-        
-        .message-card:hover {
-            transform: translateX(5px);
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-        
-        .message-card.code-message {
-            border-left: 4px solid #27ae60;
-            background: rgba(39, 174, 96, 0.1);
-        }
-        
-        .device-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        
-        .message-text {
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 10px;
-            white-space: pre-wrap;
-            max-height: 120px;
-            overflow: hidden;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        .message-text.code-preview {
-            font-family: 'Courier New', monospace;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .message-time {
-            font-size: 11px;
-            color: #a0a0ff;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .code-indicator {
-            background: #27ae60;
-            color: white;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: bold;
-        }
-        
-        .language-badge {
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-            color: white;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 10px;
-            margin-right: 5px;
-        }
-        
-        .empty-state {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.5);
-            padding: 40px 0;
-        }
-        
-        .empty-state i {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            opacity: 0.5;
-        }
-        
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            padding: 20px;
-            color: rgba(255, 255, 255, 0.6);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .designer-box {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
-            padding: 12px 20px;
-            margin-top: 10px;
-            display: inline-block;
-            font-weight: 600;
-        }
-        
-        .active-devices {
-            margin-top: 20px;
-        }
-        
-        .device-item {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 10px 15px;
-            margin-bottom: 10px;
-            font-size: 13px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .refresh-info {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 12px;
-            margin-top: 15px;
-            font-size: 12px;
-            text-align: center;
-        }
-
-        /* دکمه‌های عملیاتی */
-        .action-buttons {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .open-code-btn, .share-code-btn, .save-code-btn, .reply-btn, .react-btn, .delete-all-btn {
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 11px;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
-        
-        .share-code-btn {
-            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
-        }
-        
-        .save-code-btn {
-            background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
-        }
-        
-        .reply-btn {
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-        }
-        
-        .react-btn {
-            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
-        }
-        
-        .delete-all-btn {
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-            padding: 10px 20px;
-            font-size: 14px;
-            margin-top: 10px;
-        }
-        
-        .open-code-btn:hover, .share-code-btn:hover, 
-        .save-code-btn:hover, .reply-btn:hover, .react-btn:hover, .delete-all-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        /* استایل صفحه نمایش کد */
-        .code-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 1000;
-            overflow: auto;
-            padding: 20px;
-        }
-
-        .code-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: #1a1a1a;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-        }
-
-        .code-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            background: #2d2d2d;
-            border-bottom: 1px solid #444;
-        }
-
-        .code-title {
-            color: #fff;
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .code-close {
-            background: #ff4757;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background 0.3s;
-        }
-
-        .code-close:hover {
-            background: #ff3742;
-        }
-
-        .code-content {
-            background: #000;
-            padding: 20px;
-            max-height: 70vh;
-            overflow: auto;
-        }
-
-        .code-actions {
-            padding: 15px 20px;
-            background: #2d2d2d;
-            border-top: 1px solid #444;
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .copy-btn, .share-modal-btn {
-            background: #2ed573;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .share-modal-btn {
-            background: #9b59b6;
-        }
-
-        .copy-btn:hover {
-            background: #27ae60;
-        }
-        
-        .share-modal-btn:hover {
-            background: #8e44ad;
-        }
-
-        .copy-success {
-            color: #2ed573;
-            margin-left: 10px;
-            font-size: 14px;
-            display: none;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .stat-item {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            padding: 10px;
-            text-align: center;
-        }
-        
-        .stat-value {
-            font-size: 18px;
-            font-weight: bold;
-            color: #a0a0ff;
-        }
-        
-        .stat-label {
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.7);
-            margin-top: 5px;
-        }
-        
-        .saved-code-item {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 10px;
-            font-size: 13px;
-        }
-        
-        /* ویژگی‌های جدید */
-        .search-box {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            padding: 10px;
-            margin-bottom: 15px;
-        }
-        
-        .search-input {
-            width: 100%;
-            background: transparent;
-            border: none;
-            color: white;
-            padding: 8px;
-            font-size: 14px;
-        }
-        
-        .search-input:focus {
-            outline: none;
-        }
-        
-        .search-input::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-        
-        .reaction-buttons {
-            display: flex;
-            gap: 5px;
-            margin-top: 8px;
-            flex-wrap: wrap;
-        }
-        
-        .reaction-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            padding: 4px 8px;
-            font-size: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .reaction-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.1);
-        }
-        
-        .reply-section {
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .reply-message {
+        .device-info {
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            padding: 8px;
-            margin-bottom: 8px;
-            font-size: 12px;
-            border-right: 3px solid #3498db;
-        }
-        
-        .file-upload {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px dashed rgba(255, 255, 255, 0.3);
             border-radius: 10px;
-            padding: 15px;
-            text-align: center;
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .file-upload:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.5);
-        }
-        
-        .file-item {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
             padding: 10px;
-            margin-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .file-name {
-            font-size: 12px;
-            color: #a0a0ff;
-        }
-        
-        .file-size {
-            font-size: 10px;
-            color: rgba(255, 255, 255, 0.6);
-        }
-        
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            transition: all 0.3s;
-        }
-        
-        .theme-toggle:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.1);
-        }
-        
-        .online-indicator {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background: #27ae60;
-            border-radius: 50%;
-            margin-left: 5px;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-        
-        .typing-indicator {
-            color: #a0a0ff;
-            font-size: 12px;
-            font-style: italic;
-            padding: 5px 0;
-        }
-        
-        @media (max-width: 1200px) {
-            .content {
-                grid-template-columns: 1fr;
-            }
-            
-            .moon-title {
-                font-size: 2.5rem;
-            }
-            
-            .code-modal {
-                padding: 10px;
-            }
-        }
-        
-        /* انیمیشن‌های جدید */
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .message-card {
-            animation: slideIn 0.3s ease-out;
-        }
-        
-        .loading {
-            text-align: center;
-            padding: 20px;
-            color: #a0a0ff;
-        }
-        
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #27ae60;
-            color: white;
-            padding: 15px 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            z-index: 1001;
-            animation: slideIn 0.3s ease-out;
-        }
-        
-        /* استایل‌های Prism */
-        .code-block {
-            background: #1a1a1a;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 10px 0;
-            overflow-x: auto;
-        }
-        
-        .code-block code {
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
-        }
-        
-        /* استایل‌های ضبط صدا */
-        .voice-recorder {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        
-        .btn-record {
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 10px;
-            font-size: 14px;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.3s;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        
-        .btn-record:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-        
-        .btn-record.recording {
-            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
-            animation: pulse 1.5s infinite;
-        }
-        
-        .recording-status {
             margin-top: 10px;
-            font-size: 12px;
-            color: #a0a0ff;
-            display: none;
-        }
-        
-        .audio-message {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-        
-        .audio-player {
-            width: 100%;
-            margin-top: 5px;
-        }
-        
-        .audio-duration {
             font-size: 11px;
-            color: #a0a0ff;
-            margin-top: 5px;
         }
     </style>
 </head>
@@ -805,6 +176,35 @@
         <div class="content">
             <!-- سایدبار سمت راست - دستگاه‌های فعال -->
             <div class="sidebar">
+                <!-- بخش مدیریت کاربر -->
+                <div class="user-management">
+                    <h3 style="margin-bottom: 15px; color: #a0a0ff;">
+                        <i class="fas fa-user" style="margin-left: 8px;"></i>
+                        پروفایل کاربری
+                    </h3>
+                    
+                    <div class="user-profile">
+                        <div class="user-avatar" id="userAvatar">U</div>
+                        <div class="user-info">
+                            <div class="user-name" id="userName">کاربر ناشناس</div>
+                            <div class="user-status">
+                                <span class="online-indicator"></span>
+                                <span id="userDeviceId">دستگاه: -</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="device-info">
+                        <div><i class="fas fa-desktop" style="margin-left: 5px;"></i> دستگاه: <span id="deviceType">در حال شناسایی...</span></div>
+                        <div><i class="fas fa-clock" style="margin-left: 5px;"></i> زمان ورود: <span id="loginTime">-</span></div>
+                    </div>
+                    
+                    <button class="change-user-btn" onclick="showUserModal()">
+                        <i class="fas fa-user-edit" style="margin-left: 8px;"></i>
+                        تغییر کاربر
+                    </button>
+                </div>
+                
                 <h3 style="margin-bottom: 15px; color: #a0a0ff;">
                     <i class="fas fa-laptop" style="margin-left: 8px;"></i>
                     دستگاه‌های فعال
@@ -986,6 +386,47 @@
         </div>
     </div>
 
+    <!-- مودال مدیریت کاربر -->
+    <div id="userModal" class="user-modal">
+        <div class="user-modal-content">
+            <div class="user-modal-title">
+                <i class="fas fa-user-plus" style="margin-left: 8px;"></i>
+                ایجاد یا تغییر کاربر
+            </div>
+            
+            <div class="user-form-group">
+                <label for="userNameInput">
+                    <i class="fas fa-user" style="margin-left: 5px;"></i>
+                    نام کاربری:
+                </label>
+                <input type="text" id="userNameInput" class="user-input" placeholder="نام خود را وارد کنید">
+            </div>
+            
+            <div class="user-form-group">
+                <label for="deviceNameInput">
+                    <i class="fas fa-laptop" style="margin-left: 5px;"></i>
+                    نام دستگاه:
+                </label>
+                <input type="text" id="deviceNameInput" class="user-input" placeholder="نام دستگاه (اختیاری)">
+            </div>
+            
+            <button class="user-submit-btn" onclick="saveUserInfo()">
+                <i class="fas fa-save" style="margin-left: 8px;"></i>
+                ذخیره اطلاعات
+            </button>
+            
+            <button class="change-user-btn" onclick="closeUserModal()" style="background: rgba(255,255,255,0.1); margin-top: 10px;">
+                <i class="fas fa-times" style="margin-left: 8px;"></i>
+                انصراف
+            </button>
+            
+            <div style="margin-top: 20px; font-size: 12px; color: rgba(255,255,255,0.6);">
+                <p><i class="fas fa-info-circle" style="margin-left: 5px;"></i> هر کاربر می‌تواند از چندین دستگاه استفاده کند</p>
+                <p><i class="fas fa-info-circle" style="margin-left: 5px;"></i> پیام‌ها بین همه دستگاه‌ها همگام می‌شوند</p>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
@@ -998,6 +439,7 @@
         let currentTheme = 'dark';
         let typingTimer = null;
         let uploadedFiles = [];
+        let currentUser = null;
         
         // متغیرهای ضبط صدا
         let mediaRecorder = null;
@@ -1005,6 +447,445 @@
         let isRecording = false;
         let recordingStartTime = null;
         let recordingTimer = null;
+        
+        // ========== توابع جدید برای مدیریت کاربران ==========
+        
+        // تولید شناسه یکتا برای دستگاه
+        function generateDeviceId() {
+            return 'device_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+        
+        // شناسایی نوع دستگاه
+        function detectDeviceType() {
+            const userAgent = navigator.userAgent;
+            
+            if (/Android/i.test(userAgent)) {
+                return 'Android';
+            } else if (/iPhone|iPad|iPod/i.test(userAgent)) {
+                return 'iOS';
+            } else if (/Windows/i.test(userAgent)) {
+                return 'Windows';
+            } else if (/Mac/i.test(userAgent)) {
+                return 'Mac';
+            } else if (/Linux/i.test(userAgent)) {
+                return 'Linux';
+            } else {
+                return 'Unknown';
+            }
+        }
+        
+        // بارگذاری اطلاعات کاربر
+        function loadUserInfo() {
+            let userInfo = localStorage.getItem('moon_user_info');
+            
+            if (!userInfo) {
+                // اگر کاربری وجود ندارد، مودال کاربر را نشان بده
+                setTimeout(() => {
+                    showUserModal();
+                }, 1000);
+                return null;
+            }
+            
+            try {
+                userInfo = JSON.parse(userInfo);
+                currentUser = userInfo;
+                updateUserUI();
+                return userInfo;
+            } catch (e) {
+                console.error('خطا در بارگذاری اطلاعات کاربر:', e);
+                return null;
+            }
+        }
+        
+        // ذخیره اطلاعات کاربر
+        function saveUserInfo() {
+            const userName = document.getElementById('userNameInput').value.trim();
+            const deviceName = document.getElementById('deviceNameInput').value.trim();
+            
+            if (!userName) {
+                showNotification('لطفاً نام کاربری را وارد کنید!', 'error');
+                return;
+            }
+            
+            // اگر کاربر جدید است یا دستگاه جدیدی اضافه شده
+            if (!currentUser) {
+                currentUser = {
+                    id: 'user_' + Date.now(),
+                    name: userName,
+                    devices: {},
+                    created: new Date().toISOString()
+                };
+            }
+            
+            // به‌روزرسانی نام کاربر
+            currentUser.name = userName;
+            
+            // ایجاد یا به‌روزرسانی دستگاه
+            if (!myDeviceId) {
+                myDeviceId = generateDeviceId();
+            }
+            
+            currentUser.devices[myDeviceId] = {
+                name: deviceName || `دستگاه ${detectDeviceType()}`,
+                type: detectDeviceType(),
+                lastLogin: new Date().toISOString(),
+                loginTime: new Date().toLocaleTimeString('fa-IR')
+            };
+            
+            // ذخیره در localStorage
+            localStorage.setItem('moon_user_info', JSON.stringify(currentUser));
+            localStorage.setItem('moon_device_id', myDeviceId);
+            
+            // به‌روزرسانی UI
+            updateUserUI();
+            
+            // بستن مودال
+            closeUserModal();
+            
+            // ثبت دستگاه فعال
+            registerDevice();
+            
+            showNotification(`خوش آمدید ${userName}!`);
+        }
+        
+        // به‌روزرسانی UI کاربر
+        function updateUserUI() {
+            if (!currentUser) return;
+            
+            // به‌روزرسانی نام کاربر
+            document.getElementById('userName').textContent = currentUser.name;
+            
+            // به‌روزرسانی آواتار (حرف اول نام)
+            const firstChar = currentUser.name.charAt(0).toUpperCase();
+            document.getElementById('userAvatar').textContent = firstChar;
+            
+            // به‌روزرسانی شناسه دستگاه
+            if (myDeviceId && currentUser.devices[myDeviceId]) {
+                const device = currentUser.devices[myDeviceId];
+                document.getElementById('userDeviceId').textContent = `دستگاه: ${device.name}`;
+                document.getElementById('deviceType').textContent = device.type;
+                document.getElementById('loginTime').textContent = device.loginTime;
+            }
+            
+            // به‌روزرسانی شناسه دستگاه در فرم
+            document.getElementById('myDeviceId').textContent = currentUser.name;
+        }
+        
+        // نمایش مودال کاربر
+        function showUserModal() {
+            document.getElementById('userModal').style.display = 'block';
+            
+            // پر کردن فرم با اطلاعات موجود
+            if (currentUser) {
+                document.getElementById('userNameInput').value = currentUser.name;
+                
+                if (myDeviceId && currentUser.devices[myDeviceId]) {
+                    document.getElementById('deviceNameInput').value = currentUser.devices[myDeviceId].name;
+                }
+            }
+        }
+        
+        // بستن مودال کاربر
+        function closeUserModal() {
+            document.getElementById('userModal').style.display = 'none';
+        }
+        
+        // ========== تغییرات در توابع موجود ==========
+        
+        // ثبت دستگاه فعال
+        function registerDevice() {
+            if (!myDeviceId || !currentUser) return;
+            
+            const deviceData = {
+                device_id: myDeviceId,
+                username: currentUser.name,
+                user_id: currentUser.id,
+                device_name: currentUser.devices[myDeviceId]?.name || `دستگاه ${detectDeviceType()}`,
+                device_type: detectDeviceType(),
+                timestamp: Date.now(),
+                isTyping: false,
+                lastSeen: new Date().toLocaleTimeString('fa-IR')
+            };
+            
+            let currentDevices = {};
+            try {
+                currentDevices = JSON.parse(localStorage.getItem('moon_active_devices') || '{}');
+            } catch (e) {
+                currentDevices = {};
+            }
+            
+            currentDevices[myDeviceId] = deviceData;
+            localStorage.setItem('moon_active_devices', JSON.stringify(currentDevices));
+            
+            return currentDevices;
+        }
+        
+        // ذخیره پیام
+        function saveMessage(messageText, deviceId, files = [], audio = null) {
+            const messages = JSON.parse(localStorage.getItem('moon_messages') || '[]');
+            const now = new Date();
+            
+            const isCode = detectCode(messageText);
+            const language = 'text';
+            const lineCount = messageText.split('\n').length;
+            
+            const newMessage = {
+                id: Date.now(),
+                text: messageText,
+                time: now.toLocaleTimeString('fa-IR'),
+                device_id: deviceId,
+                user_id: currentUser?.id || 'unknown',
+                username: currentUser?.name || 'کاربر ناشناس',
+                line_count: lineCount,
+                char_count: messageText.length,
+                is_code: isCode,
+                language: language,
+                timestamp: now.getTime(),
+                files: files,
+                audio: audio,
+                reactions: {},
+                replies: []
+            };
+            
+            messages.push(newMessage);
+            localStorage.setItem('moon_messages', JSON.stringify(messages));
+            
+            return newMessage;
+        }
+        
+        // دریافت دستگاه‌های فعال
+        function getActiveDevices() {
+            let devices = {};
+            try {
+                devices = JSON.parse(localStorage.getItem('moon_active_devices') || '{}');
+            } catch (e) {
+                devices = {};
+            }
+            
+            const now = Date.now();
+            const activeDevices = {};
+            let someoneTyping = false;
+            
+            for (const [deviceId, deviceInfo] of Object.entries(devices)) {
+                if (now - deviceInfo.timestamp < 120000) { // 2 دقیقه
+                    activeDevices[deviceId] = {
+                        ...deviceInfo,
+                        time: deviceInfo.lastSeen || new Date(deviceInfo.timestamp).toLocaleTimeString('fa-IR')
+                    };
+                    
+                    if (deviceInfo.isTyping && deviceId !== myDeviceId) {
+                        someoneTyping = true;
+                    }
+                }
+            }
+            
+            const typingIndicator = document.getElementById('typingIndicator');
+            typingIndicator.style.display = someoneTyping ? 'block' : 'none';
+            
+            localStorage.setItem('moon_active_devices', JSON.stringify(activeDevices));
+            return activeDevices;
+        }
+        
+        // بارگذاری پیام‌ها
+        async function loadMessages() {
+            try {
+                const searchQuery = document.getElementById('searchInput').value;
+                const messages = searchQuery ? searchMessages(searchQuery) : getMessages();
+                const activeDevices = getActiveDevices();
+                const stats = getStats();
+                
+                messagesData = messages;
+                
+                document.getElementById('totalMessages').textContent = stats.total_messages;
+                document.getElementById('totalCodes').textContent = stats.total_codes;
+                document.getElementById('activeDevicesCount').textContent = stats.active_devices;
+                document.getElementById('onlineUsers').textContent = stats.active_devices;
+                
+                if (messages.length > 0) {
+                    const messagesList = document.getElementById('messagesList');
+                    messagesList.innerHTML = '';
+                    
+                    messages.sort((a, b) => b.timestamp - a.timestamp);
+                    
+                    messages.forEach(msg => {
+                        const messageCard = document.createElement('div');
+                        messageCard.className = `message-card ${msg.is_code ? 'code-message' : ''}`;
+                        
+                        const isCode = msg.is_code;
+                        const preview = msg.text.length > 200 ? msg.text.substring(0, 200) + '...' : msg.text;
+                        
+                        let filesHtml = '';
+                        if (msg.files && msg.files.length > 0) {
+                            filesHtml = msg.files.map(file => `
+                                <div class="file-item">
+                                    <div>
+                                        <div class="file-name">
+                                            <i class="fas fa-file" style="margin-left: 5px;"></i>
+                                            ${file.name}
+                                        </div>
+                                        <div class="file-size">${file.size}</div>
+                                    </div>
+                                    <a href="${file.url}" download="${file.name}" style="color: #a0a0ff;">
+                                        <i class="fas fa-download"></i>
+                                    </a>
+                                </div>
+                            `).join('');
+                        }
+                        
+                        let audioHtml = '';
+                        if (msg.audio) {
+                            audioHtml = `
+                                <div class="audio-message">
+                                    <div style="font-size: 12px; color: #a0a0ff; margin-bottom: 5px;">
+                                        <i class="fas fa-microphone" style="margin-left: 5px;"></i>
+                                        پیام صوتی
+                                    </div>
+                                    <audio controls class="audio-player">
+                                        <source src="${msg.audio.url}" type="audio/wav">
+                                        مرورگر شما از پخش صدا پشتیبانی نمی‌کند.
+                                    </audio>
+                                    <div class="audio-duration">
+                                        مدت: ${msg.audio.duration} ثانیه
+                                    </div>
+                                </div>
+                            `;
+                        }
+                        
+                        let repliesHtml = '';
+                        if (msg.replies && msg.replies.length > 0) {
+                            repliesHtml = `
+                                <div class="reply-section">
+                                    ${msg.replies.map(reply => `
+                                        <div class="reply-message">
+                                            <strong>${reply.username || `کاربر ${reply.device_id}`}:</strong> ${reply.text}
+                                            <div class="message-time">${reply.time}</div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            `;
+                        }
+                        
+                        let reactionsHtml = '';
+                        if (msg.reactions && Object.keys(msg.reactions).length > 0) {
+                            reactionsHtml = `
+                                <div class="reaction-buttons">
+                                    ${Object.entries(msg.reactions).map(([reaction, count]) => `
+                                        <div class="reaction-btn">
+                                            ${reaction} ${count}
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            `;
+                        }
+                        
+                        messageCard.innerHTML = `
+                            <div class="device-badge">
+                                <i class="fas fa-user" style="margin-left: 5px;"></i>
+                                ${msg.username || `کاربر ${msg.device_id}`}
+                                ${isCode ? '<span class="code-indicator">کد</span>' : ''}
+                            </div>
+                            ${msg.text ? `<div class="message-text ${isCode ? 'code-preview' : ''}">${escapeHtml(preview)}</div>` : ''}
+                            ${audioHtml}
+                            ${filesHtml}
+                            <div class="message-time">
+                                <i class="fas fa-clock" style="margin-left: 5px;"></i>
+                                ${msg.time}
+                                ${isCode ? `<span style="color: #27ae60; margin-right: 5px;">• ${msg.line_count} خط</span>` : ''}
+                                ${msg.char_count ? `<span style="color: #3498db; margin-right: 5px;">• ${msg.char_count} کاراکتر</span>` : ''}
+                            </div>
+                            ${reactionsHtml}
+                            <div class="action-buttons">
+                                ${isCode ? `
+                                <button class="open-code-btn" onclick="showCodeModal('${msg.id}')">
+                                    <i class="fas fa-expand"></i>
+                                    نمایش کامل
+                                </button>
+                                ` : ''}
+                                <button class="share-code-btn" onclick="shareCode('${msg.id}')">
+                                    <i class="fas fa-share"></i>
+                                    اشتراک‌گذاری
+                                </button>
+                                <button class="save-code-btn" onclick="saveCode('${msg.id}')">
+                                    <i class="fas fa-bookmark"></i>
+                                    ذخیره
+                                </button>
+                                <button class="react-btn" onclick="addReaction('${msg.id}', '👍')">
+                                    <i class="fas fa-thumbs-up"></i>
+                                </button>
+                                <button class="reply-btn" onclick="promptReply('${msg.id}')">
+                                    <i class="fas fa-reply"></i>
+                                    پاسخ
+                                </button>
+                            </div>
+                            ${repliesHtml}
+                        `;
+                        messagesList.appendChild(messageCard);
+                    });
+                } else {
+                    const messagesList = document.getElementById('messagesList');
+                    messagesList.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-comment" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                            <p>هنوز پیامی ارسال نشده است</p>
+                            <p style="font-size: 14px; margin-top: 10px;">اولین پیام را ارسال کنید!</p>
+                        </div>
+                    `;
+                }
+                
+                const devicesList = document.getElementById('devicesList');
+                devicesList.innerHTML = '';
+                
+                const deviceEntries = Object.entries(activeDevices);
+                
+                if (deviceEntries.length > 0) {
+                    deviceEntries.forEach(([deviceId, deviceInfo]) => {
+                        const deviceItem = document.createElement('div');
+                        deviceItem.className = 'device-item';
+                        deviceItem.innerHTML = `
+                            <div>
+                                <i class="fas fa-user" style="margin-left: 5px;"></i>
+                                ${deviceInfo.username}
+                                ${deviceId === myDeviceId ? '<small style="color: #27ae60;">(شما)</small>' : ''}
+                                ${deviceInfo.isTyping ? '<small style="color: #a0a0ff;">(در حال تایپ...)</small>' : ''}
+                            </div>
+                            <span style="font-size: 10px; color: #a0a0ff;">
+                                ${deviceInfo.time}
+                            </span>
+                        `;
+                        devicesList.appendChild(deviceItem);
+                    });
+                } else {
+                    devicesList.innerHTML = '<div style="text-align: center; color: rgba(255,255,255,0.5); padding: 10px;">هیچ کاربر فعالی وجود ندارد</div>';
+                }
+                
+                updateSavedCodes();
+                
+            } catch (error) {
+                console.error('خطا در بارگذاری پیام‌ها:', error);
+            }
+        }
+        
+        // اضافه کردن پاسخ
+        function addReply(messageId, replyText) {
+            const messages = getMessages();
+            const message = messages.find(msg => msg.id == messageId);
+            
+            if (message) {
+                if (!message.replies) message.replies = [];
+                message.replies.push({
+                    text: replyText,
+                    device_id: myDeviceId,
+                    user_id: currentUser?.id,
+                    username: currentUser?.name,
+                    time: new Date().toLocaleTimeString('fa-IR')
+                });
+                
+                localStorage.setItem('moon_messages', JSON.stringify(messages));
+                loadMessages();
+            }
+        }
+        
+        // ========== باقی توابع بدون تغییر ==========
         
         // ایجاد ستاره‌های متحرک
         function createStars() {
@@ -1070,31 +951,6 @@
             return totalQuotes >= 2 && messageText.length >= 10;
         }
         
-        // ثبت دستگاه فعال
-        function registerDevice() {
-            if (!myDeviceId) return;
-            
-            const deviceData = {
-                device_id: myDeviceId,
-                username: `کاربر ${myDeviceId}`,
-                timestamp: Date.now(),
-                isTyping: false,
-                lastSeen: new Date().toLocaleTimeString('fa-IR')
-            };
-            
-            let currentDevices = {};
-            try {
-                currentDevices = JSON.parse(localStorage.getItem('moon_active_devices') || '{}');
-            } catch (e) {
-                currentDevices = {};
-            }
-            
-            currentDevices[myDeviceId] = deviceData;
-            localStorage.setItem('moon_active_devices', JSON.stringify(currentDevices));
-            
-            return currentDevices;
-        }
-        
         // نشان دادن وضعیت تایپ
         function setTypingStatus(isTyping) {
             if (!myDeviceId) return;
@@ -1116,70 +972,6 @@
             typingTimer = setTimeout(() => {
                 setTypingStatus(false);
             }, 1000);
-        }
-        
-        // دریافت دستگاه‌های فعال
-        function getActiveDevices() {
-            let devices = {};
-            try {
-                devices = JSON.parse(localStorage.getItem('moon_active_devices') || '{}');
-            } catch (e) {
-                devices = {};
-            }
-            
-            const now = Date.now();
-            const activeDevices = {};
-            let someoneTyping = false;
-            
-            for (const [deviceId, deviceInfo] of Object.entries(devices)) {
-                if (now - deviceInfo.timestamp < 120000) {
-                    activeDevices[deviceId] = {
-                        ...deviceInfo,
-                        time: deviceInfo.lastSeen || new Date(deviceInfo.timestamp).toLocaleTimeString('fa-IR')
-                    };
-                    
-                    if (deviceInfo.isTyping && parseInt(deviceId) !== myDeviceId) {
-                        someoneTyping = true;
-                    }
-                }
-            }
-            
-            const typingIndicator = document.getElementById('typingIndicator');
-            typingIndicator.style.display = someoneTyping ? 'block' : 'none';
-            
-            localStorage.setItem('moon_active_devices', JSON.stringify(activeDevices));
-            return activeDevices;
-        }
-        
-        // ذخیره پیام
-        function saveMessage(messageText, deviceId, files = [], audio = null) {
-            const messages = JSON.parse(localStorage.getItem('moon_messages') || '[]');
-            const now = new Date();
-            
-            const isCode = detectCode(messageText);
-            const language = 'text';
-            const lineCount = messageText.split('\n').length;
-            
-            const newMessage = {
-                id: Date.now(),
-                text: messageText,
-                time: now.toLocaleTimeString('fa-IR'),
-                device_id: deviceId,
-                line_count: lineCount,
-                char_count: messageText.length,
-                is_code: isCode,
-                language: language,
-                timestamp: now.getTime(),
-                files: files,
-                audio: audio,
-                reactions: {},
-                replies: []
-            };
-            
-            messages.push(newMessage);
-            localStorage.setItem('moon_messages', JSON.stringify(messages));
-            
-            return newMessage;
         }
         
         // دریافت پیام‌ها
@@ -1288,24 +1080,6 @@
             }
         }
         
-        // اضافه کردن پاسخ
-        function addReply(messageId, replyText) {
-            const messages = getMessages();
-            const message = messages.find(msg => msg.id == messageId);
-            
-            if (message) {
-                if (!message.replies) message.replies = [];
-                message.replies.push({
-                    text: replyText,
-                    device_id: myDeviceId,
-                    time: new Date().toLocaleTimeString('fa-IR')
-                });
-                
-                localStorage.setItem('moon_messages', JSON.stringify(messages));
-                loadMessages();
-            }
-        }
-        
         // شروع ضبط صدا
         async function startRecording() {
             try {
@@ -1404,184 +1178,6 @@
             }
         }
         
-        // دریافت پیام‌های جدید
-        async function loadMessages() {
-            try {
-                const searchQuery = document.getElementById('searchInput').value;
-                const messages = searchQuery ? searchMessages(searchQuery) : getMessages();
-                const activeDevices = getActiveDevices();
-                const stats = getStats();
-                
-                messagesData = messages;
-                
-                document.getElementById('totalMessages').textContent = stats.total_messages;
-                document.getElementById('totalCodes').textContent = stats.total_codes;
-                document.getElementById('activeDevicesCount').textContent = stats.active_devices;
-                document.getElementById('onlineUsers').textContent = stats.active_devices;
-                
-                if (messages.length > 0) {
-                    const messagesList = document.getElementById('messagesList');
-                    messagesList.innerHTML = '';
-                    
-                    messages.sort((a, b) => b.timestamp - a.timestamp);
-                    
-                    messages.forEach(msg => {
-                        const messageCard = document.createElement('div');
-                        messageCard.className = `message-card ${msg.is_code ? 'code-message' : ''}`;
-                        
-                        const isCode = msg.is_code;
-                        const preview = msg.text.length > 200 ? msg.text.substring(0, 200) + '...' : msg.text;
-                        
-                        let filesHtml = '';
-                        if (msg.files && msg.files.length > 0) {
-                            filesHtml = msg.files.map(file => `
-                                <div class="file-item">
-                                    <div>
-                                        <div class="file-name">
-                                            <i class="fas fa-file" style="margin-left: 5px;"></i>
-                                            ${file.name}
-                                        </div>
-                                        <div class="file-size">${file.size}</div>
-                                    </div>
-                                    <a href="${file.url}" download="${file.name}" style="color: #a0a0ff;">
-                                        <i class="fas fa-download"></i>
-                                    </a>
-                                </div>
-                            `).join('');
-                        }
-                        
-                        let audioHtml = '';
-                        if (msg.audio) {
-                            audioHtml = `
-                                <div class="audio-message">
-                                    <div style="font-size: 12px; color: #a0a0ff; margin-bottom: 5px;">
-                                        <i class="fas fa-microphone" style="margin-left: 5px;"></i>
-                                        پیام صوتی
-                                    </div>
-                                    <audio controls class="audio-player">
-                                        <source src="${msg.audio.url}" type="audio/wav">
-                                        مرورگر شما از پخش صدا پشتیبانی نمی‌کند.
-                                    </audio>
-                                    <div class="audio-duration">
-                                        مدت: ${msg.audio.duration} ثانیه
-                                    </div>
-                                </div>
-                            `;
-                        }
-                        
-                        let repliesHtml = '';
-                        if (msg.replies && msg.replies.length > 0) {
-                            repliesHtml = `
-                                <div class="reply-section">
-                                    ${msg.replies.map(reply => `
-                                        <div class="reply-message">
-                                            <strong>کاربر ${reply.device_id}:</strong> ${reply.text}
-                                            <div class="message-time">${reply.time}</div>
-                                        </div>
-                                    `).join('')}
-                                </div>
-                            `;
-                        }
-                        
-                        let reactionsHtml = '';
-                        if (msg.reactions && Object.keys(msg.reactions).length > 0) {
-                            reactionsHtml = `
-                                <div class="reaction-buttons">
-                                    ${Object.entries(msg.reactions).map(([reaction, count]) => `
-                                        <div class="reaction-btn">
-                                            ${reaction} ${count}
-                                        </div>
-                                    `).join('')}
-                                </div>
-                            `;
-                        }
-                        
-                        messageCard.innerHTML = `
-                            <div class="device-badge">
-                                <i class="fas fa-user" style="margin-left: 5px;"></i>
-                                کاربر ${msg.device_id}
-                                ${isCode ? '<span class="code-indicator">کد</span>' : ''}
-                            </div>
-                            ${msg.text ? `<div class="message-text ${isCode ? 'code-preview' : ''}">${escapeHtml(preview)}</div>` : ''}
-                            ${audioHtml}
-                            ${filesHtml}
-                            <div class="message-time">
-                                <i class="fas fa-clock" style="margin-left: 5px;"></i>
-                                ${msg.time}
-                                ${isCode ? `<span style="color: #27ae60; margin-right: 5px;">• ${msg.line_count} خط</span>` : ''}
-                                ${msg.char_count ? `<span style="color: #3498db; margin-right: 5px;">• ${msg.char_count} کاراکتر</span>` : ''}
-                            </div>
-                            ${reactionsHtml}
-                            <div class="action-buttons">
-                                ${isCode ? `
-                                <button class="open-code-btn" onclick="showCodeModal('${msg.id}')">
-                                    <i class="fas fa-expand"></i>
-                                    نمایش کامل
-                                </button>
-                                ` : ''}
-                                <button class="share-code-btn" onclick="shareCode('${msg.id}')">
-                                    <i class="fas fa-share"></i>
-                                    اشتراک‌گذاری
-                                </button>
-                                <button class="save-code-btn" onclick="saveCode('${msg.id}')">
-                                    <i class="fas fa-bookmark"></i>
-                                    ذخیره
-                                </button>
-                                <button class="react-btn" onclick="addReaction('${msg.id}', '👍')">
-                                    <i class="fas fa-thumbs-up"></i>
-                                </button>
-                                <button class="reply-btn" onclick="promptReply('${msg.id}')">
-                                    <i class="fas fa-reply"></i>
-                                    پاسخ
-                                </button>
-                            </div>
-                            ${repliesHtml}
-                        `;
-                        messagesList.appendChild(messageCard);
-                    });
-                } else {
-                    const messagesList = document.getElementById('messagesList');
-                    messagesList.innerHTML = `
-                        <div class="empty-state">
-                            <i class="fas fa-comment" style="font-size: 3rem; margin-bottom: 15px;"></i>
-                            <p>هنوز پیامی ارسال نشده است</p>
-                            <p style="font-size: 14px; margin-top: 10px;">اولین پیام را ارسال کنید!</p>
-                        </div>
-                    `;
-                }
-                
-                const devicesList = document.getElementById('devicesList');
-                devicesList.innerHTML = '';
-                
-                const deviceEntries = Object.entries(activeDevices);
-                
-                if (deviceEntries.length > 0) {
-                    deviceEntries.forEach(([deviceId, deviceInfo]) => {
-                        const deviceItem = document.createElement('div');
-                        deviceItem.className = 'device-item';
-                        deviceItem.innerHTML = `
-                            <div>
-                                <i class="fas fa-user" style="margin-left: 5px;"></i>
-                                ${deviceInfo.username}
-                                ${deviceInfo.isTyping ? '<small style="color: #a0a0ff;">(در حال تایپ...)</small>' : ''}
-                            </div>
-                            <span style="font-size: 10px; color: #a0a0ff;">
-                                ${deviceInfo.time}
-                            </span>
-                        `;
-                        devicesList.appendChild(deviceItem);
-                    });
-                } else {
-                    devicesList.innerHTML = '<div style="text-align: center; color: rgba(255,255,255,0.5); padding: 10px;">هیچ کاربر فعالی وجود ندارد</div>';
-                }
-                
-                updateSavedCodes();
-                
-            } catch (error) {
-                console.error('خطا در بارگذاری پیام‌ها:', error);
-            }
-        }
-        
         // نمایش مودال کد
         function showCodeModal(messageId) {
             const message = messagesData.find(msg => msg.id == messageId);
@@ -1595,7 +1191,7 @@
             const codeTitle = document.getElementById('codeTitle');
             const codeElement = document.getElementById('codeElement');
             
-            codeTitle.textContent = `متن - کاربر ${message.device_id}`;
+            codeTitle.textContent = `متن - ${message.username || `کاربر ${message.device_id}`}`;
             codeElement.textContent = message.text;
             codeElement.className = `language-javascript`;
             
@@ -1663,7 +1259,7 @@
             if (!message) return;
             
             const savedCodes = JSON.parse(localStorage.getItem('moon_saved_codes') || '{}');
-            const userCodes = savedCodes[myDeviceId] || [];
+            const userCodes = savedCodes[currentUser?.id] || [];
             
             if (!userCodes.find(code => code.id == messageId)) {
                 userCodes.push({
@@ -1674,7 +1270,7 @@
                     preview: message.text.substring(0, 100) + (message.text.length > 100 ? '...' : '')
                 });
                 
-                savedCodes[myDeviceId] = userCodes;
+                savedCodes[currentUser?.id] = userCodes;
                 localStorage.setItem('moon_saved_codes', JSON.stringify(savedCodes));
                 showNotification('متن با موفقیت ذخیره شد!');
                 updateSavedCodes();
@@ -1694,7 +1290,7 @@
         // به‌روزرسانی لیست کدهای ذخیره شده
         function updateSavedCodes() {
             const savedCodes = JSON.parse(localStorage.getItem('moon_saved_codes') || '{}');
-            const userCodes = savedCodes[myDeviceId] || [];
+            const userCodes = savedCodes[currentUser?.id] || [];
             
             const savedCodesList = document.getElementById('savedCodesList');
             savedCodesList.innerHTML = '';
@@ -1770,6 +1366,7 @@
             
             if (e.key === 'Escape') {
                 closeCodeModal();
+                closeUserModal();
             }
             
             if (e.ctrlKey && e.key === 'k') {
@@ -1782,26 +1379,46 @@
         document.addEventListener('DOMContentLoaded', function() {
             createStars();
             
+            // بارگذاری شناسه دستگاه
             let deviceId = localStorage.getItem('moon_device_id');
             if (!deviceId) {
-                deviceId = "1";
+                deviceId = generateDeviceId();
                 localStorage.setItem('moon_device_id', deviceId);
             }
             
-            myDeviceId = parseInt(deviceId);
-            document.getElementById('myDeviceId').textContent = `کاربر ${myDeviceId}`;
+            myDeviceId = deviceId;
             
-            registerDevice();
-            loadMessages();
+            // بارگذاری اطلاعات کاربر
+            loadUserInfo();
             
-            setInterval(function() {
+            // اگر کاربر وجود ندارد، مودال کاربر را نشان بده
+            if (!currentUser) {
+                setTimeout(() => {
+                    showUserModal();
+                }, 1000);
+            } else {
                 registerDevice();
                 loadMessages();
+            }
+            
+            // تنظیم interval برای به‌روزرسانی
+            setInterval(function() {
+                if (currentUser) {
+                    registerDevice();
+                    loadMessages();
+                }
             }, 3000);
             
+            // بستن مودال‌ها با کلیک خارج
             document.getElementById('codeModal').addEventListener('click', function(e) {
                 if (e.target === this) {
                     closeCodeModal();
+                }
+            });
+            
+            document.getElementById('userModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeUserModal();
                 }
             });
         });
